@@ -1,18 +1,17 @@
 <template>
   <div class="home">
     <MainHeader />
-    <div>
+    <div class="content">
       hi
     </div>
+    <LoginDialog v-model="isLoggedIn" />
   </div>
 </template>
 
 <script setup>
-// @ is an alias to /src
-import MainHeader from '@/components/template/MainHeader.vue'
-import { onMounted } from 'vue'
+import MainHeader from '@/components/template/MainHeader.vue';
+import LoginDialog from '@/components/dialog/LoginDialog.vue';
+import { ref } from 'vue';
 
-onMounted(() => {
-  console.log(this.$isMobile())
-});
+const isLoggedIn = ref(true);
 </script>

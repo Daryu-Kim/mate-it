@@ -1,0 +1,127 @@
+<template>
+    <header>
+        <div class="logo-area">
+            <router-link to="/" class="logo-font logo">MATEIT</router-link>
+            <div class="menu-area">
+                <router-link to="/today">오늘의 인연</router-link>
+                <router-link to="">친구 탐색</router-link>
+                <router-link to="">모임 찾기</router-link>
+                <router-link to="/live-channel">라이브 채널</router-link>
+                <router-link to="/secret">비밀방</router-link>
+            </div>
+        </div>
+        <div class="quick-area">
+            <button @click="openShop()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="#434343">
+                    <path
+                        d="M850.09-516.57V-200q0 37.78-26.61 64.39T759.09-109H202.91q-37.78 0-64.39-26.61T111.91-200v-315.37q-23.24-22.91-34.9-57.11-11.66-34.19.34-73.67l42-136q8.72-28.39 31.37-47.19 22.65-18.79 52.28-18.79h556q29.63 0 51.9 18.17 22.27 18.18 31.75 47.81l42 136q12 39 .22 72.07-11.78 33.08-34.78 57.51ZM569-562.87q25.57 0 38.85-17.42 13.28-17.43 10.28-39.23l-21.76-137.61h-72.5V-612q0 20.04 13.16 34.59 13.17 14.54 31.97 14.54Zm-180 0q21.57 0 35.35-14.54 13.78-14.55 13.78-34.59v-145.13h-72.5l-21.76 137.61q-3.76 22.32 9.66 39.49 13.43 17.16 35.47 17.16Zm-178 0q17.04 0 29.71-12.52 12.66-12.52 15.42-31.09l21.52-150.65h-72.5l-39.28 131.85q-5.76 19.28 5.78 40.85 11.55 21.56 39.35 21.56Zm540 0q27.8 0 39.73-21.56 11.92-21.57 5.4-40.85l-41.28-131.85h-70.5l21.52 150.65q2.76 18.57 15.42 31.09 12.67 12.52 29.71 12.52ZM202.91-200h556.18v-273.63q-4.05 1.52-5.31 1.64-1.26.12-2.78.12-25.33 0-46.3-8.4-20.98-8.4-41.7-27.45-18.48 17.05-41.48 26.45-23 9.4-48.52 9.4-26.52 0-50.02-9.4-23.5-9.4-41.98-26.45-17.48 17.05-39.98 26.45-22.5 9.4-48.02 9.4-28.28 0-51.9-9.4-23.62-9.4-42.1-26.45-21.96 20.05-43.05 27.95-21.1 7.9-44.95 7.9-1.52 0-3.54-.12-2.03-.12-4.55-1.64V-200Zm556.18 0H202.91 759.09Z" />
+                </svg>
+                <p>상점</p>
+            </button>
+            <router-link to="">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="#434343">
+                    <path
+                        d="M151.87-191.87v-91H229v-271.87q0-86.11 51.32-153.6 51.31-67.49 134.18-88.2v-26.09q0-27.29 19.1-46.4 19.11-19.1 46.4-19.1t46.4 19.1q19.1 19.11 19.1 46.4v26.09q83.11 20.71 134.3 88.08Q731-641.09 731-554.74v271.87h77.13v91H151.87ZM480-498.8Zm.24 429.56q-34.18 0-58.53-24.27-24.34-24.27-24.34-58.36h165.5q0 34.2-24.27 58.41-24.28 24.22-58.36 24.22ZM320-282.87h320v-271.87q0-66-47-113t-113-47q-66 0-113 47t-47 113v271.87Z" />
+                </svg>
+                <p>알림</p>
+            </router-link>
+            <router-link to="">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="#434343">
+                    <path
+                        d="M893.63-65.41 731.48-227.56H326.7q-37.79 0-64.4-26.61-26.6-26.61-26.6-64.4v-40h435.93q37.78 0 64.39-26.6 26.61-26.61 26.61-64.4v-275.45h40q37.78 0 64.39 26.61t26.61 64.39v568.61ZM157.37-493.8l35.76-35.77h398.5v-274.02H157.37v309.79Zm-91 218.82v-528.61q0-37.78 26.61-64.39t64.39-26.61h434.26q37.78 0 64.39 26.61t26.61 64.39v274.02q0 37.79-26.61 64.4-26.61 26.6-64.39 26.6H230.2L66.37-274.98Zm91-254.59v-274.02 274.02Z" />
+                </svg>
+                <p>채팅</p>
+            </router-link>
+            <router-link to="">
+                <img src="https://picsum.photos/300" />
+            </router-link>
+        </div>
+        <ShopDialog v-model="isOpenedShop" />
+    </header>
+</template>
+
+<style lang="scss" scoped>
+header {
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    top: 0;
+    position: fixed;
+    padding: 8px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 8px rgba($color: #000000, $alpha: 0.35);
+    z-index: 1;
+
+    >div.logo-area {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 36px;
+
+        >a {
+            // background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
+            // background: linear-gradient(45deg, #00b4d8, #ff6f61);
+            // background: linear-gradient(45deg, #ff58b2, #8a2be2);
+            // background: linear-gradient(45deg, #00b894, #0984e3);
+            background: linear-gradient(45deg, #f39c12, #e74c3c);
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 28px;
+            line-height: 44px;
+        }
+
+        >.menu-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            >a {
+                text-decoration: none;
+                color: black;
+            }
+        }
+    }
+
+    >div.quick-area {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        >a,
+        button {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+            gap: 4px;
+            font-weight: 500;
+            font-size: 14px;
+
+            >img {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+            }
+        }
+    }
+}
+</style>
+
+<script setup lang="js">
+import { ref } from 'vue';
+import ShopDialog from '../dialog/ShopDialog.vue';
+
+const isOpenedShop = ref(false);
+
+const openShop = () => {
+    isOpenedShop.value = true;
+}
+</script>

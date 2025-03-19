@@ -7,11 +7,13 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.1",
+    "agora-rtc-sdk-ng": "^4.23.2",
     "core-js": "^3.8.3",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
     "register-service-worker": "^1.7.2",
+    "stream-browserify": "^3.0.0",
     "vue": "^3.2.13",
-    "vue-mobile-detection": "^2.0.1",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },
