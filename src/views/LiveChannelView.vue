@@ -4,14 +4,14 @@
         <div class="content">
             <div class="title-area">
                 <div class="text-area">
-                    <p class="title">FLOW LIVE | 오디오 라이브 방송</p>
-                    <p class="desc">플로우 라이브에서 인기쟁이들의 라이브를 들어보세요!</p>
+                    <p class="title">MATEIT LIVE | 오디오 라이브 방송</p>
+                    <p class="desc">메이트잇 라이브에서 인기쟁이들의 라이브를 들어보세요!</p>
                 </div>
                 <button @click="selectLive()" class="full-width-primary-btn gradient-background">방송 시작하기</button>
             </div>
             <div class="live-area">
                 <div class="title-area">
-                    <p>FLOW가 선정한 DJ</p>
+                    <p>MATEIT이 선정한 DJ</p>
                     <button>더 보기 ></button>
                 </div>
                 <div class="card-area">

@@ -72,21 +72,21 @@ button {
 .logo-font {
   font-family: 'MoveSans-Bold';
   font-weight: 700;
-  background: linear-gradient(90deg, #2af598 0%, #009efd 100%);
+  background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gradient-font {
-  background: linear-gradient(90deg, #2af598 0%, #009efd 100%);
+  background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gradient-background {
-  background: linear-gradient(90deg, #2af598 0%, #009efd 100%);
+  background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
 }
 
 .gradient-border {
@@ -94,7 +94,7 @@ button {
   border-radius: 8px;
 
   box-shadow: 0 0 0 2px transparent;
-  background-image: linear-gradient(90deg, #2af598 0%, #009efd 100%);
+  background-image: linear-gradient(45deg, #2af598 0%, #009efd 100%);
   background-clip: padding-box;
   -webkit-background-clip: padding-box;
 }
@@ -106,7 +106,7 @@ button {
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background-image: linear-gradient(90deg, #2af598 0%, #009efd 100%);
+  background-image: linear-gradient(45deg, #2af598 0%, #009efd 100%);
   border-radius: 8px;
   z-index: -1;
 }

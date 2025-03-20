@@ -64,11 +64,7 @@ header {
         gap: 36px;
 
         >a {
-            // background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
-            // background: linear-gradient(45deg, #00b4d8, #ff6f61);
-            // background: linear-gradient(45deg, #ff58b2, #8a2be2);
-            // background: linear-gradient(45deg, #00b894, #0984e3);
-            background: linear-gradient(45deg, #f39c12, #e74c3c);
+            background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
 
             -webkit-background-clip: text;
             background-clip: text;

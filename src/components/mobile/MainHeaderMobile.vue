@@ -1,7 +1,7 @@
 <template>
     <header>
         <div class="logo-area">
-            <router-link to="/" class="logo-font logo">FLOW</router-link>
+            <router-link to="/" class="logo-font logo">MATEIT</router-link>
         </div>
         <div class="quick-area">
 

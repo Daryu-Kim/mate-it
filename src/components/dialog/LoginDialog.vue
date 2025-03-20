@@ -2,9 +2,9 @@
   <div v-if="isVisible" class="dialog-overlay" @click.self="close">
     <div class="dialog-content">
       <div class="logo-area">
-        <p class="logo-font logo">FLOW</p>
-        <p class="logo-title">다양한 인연이 가득한 FLOW!</p>
-        <p class="logo-desc">FLOW에 로그인하고, 나만의 특별한 인연을 찾아보세요.</p>
+        <p class="logo-font logo">MATEIT</p>
+        <p class="logo-title">다양한 인연이 가득한 MATEIT!</p>
+        <p class="logo-desc">MATEIT에 로그인하고, 나만의 특별한 인연을 찾아보세요.</p>
       </div>
       <div class="btn-area">
         <div class="main-btn-area">
@@ -184,6 +184,7 @@ const loginWithSocial = async (provider) => {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 
   >.dialog-content {
     background: white;

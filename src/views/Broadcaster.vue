@@ -14,7 +14,7 @@
                                 </button>
                                 <div>
                                     <p class="broadcast-title gradient-font">
-                                        방송 타이틀입니다.
+                                        {{ title }}
                                     </p>
                                     <div>
                                         <p class="broadcaster-name">
@@ -89,6 +89,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="video-area" v-if="isVideoBroadcast"></div>
                     <div class="chat-area">
                         <p>
                             건강한 방송 환경을 위해 상시 모니터링중입니다.<br />
@@ -102,7 +103,7 @@
                             당신의 목소리가 큰 힘이 됩니다.
                         </p>
                         <div class="broadcaster">
-                            <div class="profile-image"></div>
+                            <button class="profile-image"></button>
                             <div class="content-area">
                                 <div>
                                     <p class="role">DJ</p>
@@ -112,7 +113,7 @@
                             </div>
                         </div>
                         <div class="audience">
-                            <div class="profile-image"></div>
+                            <button class="profile-image"></button>
                             <div class="content-area">
                                 <div>
                                     <p class="role gradient-font d-none">시청자</p>
@@ -122,7 +123,7 @@
                             </div>
                         </div>
                         <div class="audience">
-                            <div class="profile-image"></div>
+                            <button class="profile-image"></button>
                             <div class="content-area">
                                 <div>
                                     <p class="role gradient-font">애청자</p>
@@ -132,7 +133,7 @@
                             </div>
                         </div>
                         <div class="audience">
-                            <div class="profile-image"></div>
+                            <button class="profile-image"></button>
                             <div class="content-area">
                                 <div>
                                     <p class="role gradient-font">애청자</p>
@@ -142,7 +143,7 @@
                             </div>
                         </div>
                         <div class="audience">
-                            <div class="profile-image"></div>
+                            <button class="profile-image"></button>
                             <div class="content-area">
                                 <div>
                                     <p class="role gradient-font">애청자</p>
@@ -152,7 +153,7 @@
                             </div>
                         </div>
                         <div class="audience">
-                            <div class="profile-image"></div>
+                            <button class="profile-image"></button>
                             <div class="content-area">
                                 <div>
                                     <p class="role gradient-font">애청자</p>
@@ -217,7 +218,119 @@
                 </div>
 
                 <div class="tab-content">
-                    <div v-if="selectedTab === 'tab1'">TAB1</div>
+                    <div v-if="selectedTab === 'tab1'">
+                        <div>
+                            <div class="title-area">
+                                <p class="title">제목</p>
+                                <p class="desc">({{ title.length }}/20)</p>
+                            </div>
+                            <input type="text" v-model="title" maxlength="20"
+                                placeholder="부적절한 방송 제목은 블라인드 처리될 수 있습니다." />
+                        </div>
+                        <div>
+                            <div class="title-area">
+                                <p class="title">방송 공지</p>
+                                <p class="desc">({{ textNotice.length }}/100)</p>
+                            </div>
+                            <textarea type="text" v-model="textNotice" maxlength="100" rows="5"
+                                placeholder="청취자 입장 시 맨 처음 보이는 문구입니다."></textarea>
+                        </div>
+                        <!-- <div>
+                            <div class="title-area">
+                                <p class="title">썸네일 업로드</p>
+                            </div>
+                            <input id="image" class="d-none" type="file" accept="image/*" @input="handleImageUpload" />
+                            <label for="image" class="image-area"
+                                :style="{ backgroundImage: uploadedImage ? `url(${uploadedImage})` : 'none' }">
+                                <svg v-if="!uploadedImage" xmlns="http://www.w3.org/2000/svg" height="48px"
+                                    viewBox="0 -960 960 960" width="48px" fill="#434343">
+                                    <path
+                                        d="M480-480ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h320v80H200v560h560v-320h80v320q0 33-23.5 56.5T760-120H200Zm40-160h480L570-480 450-320l-90-120-120 160Zm440-320v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Z" />
+                                </svg>
+                            </label>
+                        </div> -->
+                        <div>
+                            <div class="title-area">
+                                <p class="title">오디오 장비 설정</p>
+                            </div>
+                            <select v-model="selectedMicrophone" @change="changeMicrophone">
+                                <option v-for="device in microphoneDevices" :key="device.deviceId"
+                                    :value="device.deviceId">
+                                    {{ device.label || `마이크 ${device.deviceId}` }}
+                                </option>
+                            </select>
+                            <select v-model="selectedAudioQuality" @change="changeAudioQuality">
+                                <option value="speech_low_quality">낮은 품질, 통화 수준 (분당 데이터 135KB)</option>
+                                <option value="speech_standard">표준 품질, 음성 채팅 (분당 데이터 240KB)</option>
+                                <option value="music_standard">고음질, 음악 가능 (분당 데이터 360KB)</option>
+                                <option value="music_high_quality">매우 높은 품질, 음악 방송 (분당 데이터 960KB)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div class="title-area">
+                                <p class="title">오디오 미리보기</p>
+                            </div>
+                            <div class="volume-bar">
+                                <div class="volume-fill gradient-background"
+                                    :style="{ width: volumeLevel * 100 + '%' }">
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="isVideoBroadcast">
+                            <div class="title-area">
+                                <p class="title">비디오 장비 설정</p>
+                            </div>
+                            <select v-model="selectedCamera" @change="changeCamera">
+                                <option v-for="device in cameraDevices" :key="device.deviceId" :value="device.deviceId">
+                                    {{ device.label || `카메라 ${device.deviceId}` }}
+                                </option>
+                            </select>
+                            <select v-model="selectedResolution" @change="changeCamera">
+                                <option value="SD_Standard">SD 일반 (분당 데이터 5.86MB)</option>
+                                <option value="HD_Standard">HD 일반 (분당 데이터 14.65MB)</option>
+                                <option value="HD_Smooth">HD 부드러운 (분당 데이터 29.3MB)</option>
+                                <option value="FHD_Standard">FHD 일반 (분당 데이터 29.3MB)</option>
+                                <option value="FHD_Smooth">FHD 부드러운 (분당 데이터 43.95MB)</option>
+                            </select>
+                        </div>
+                        <div v-if="isVideoBroadcast">
+                            <div class="title-area">
+                                <p class="title">비디오 미리보기</p>
+                            </div>
+                            <video ref="videoRef" autoplay playsinline :style="{ filter: filterStyle }"></video>
+                        </div>
+                        <div v-if="isVideoBroadcast">
+                            <div class="title-area">
+                                <p class="title">비디오 필터 설정</p>
+                            </div>
+                            <div class="filter-area">
+                                <div>
+                                    <label>밝기</label>
+                                    <input type="range" v-model="brightness" min="0" max="2" step="0.1" />
+                                </div>
+                                <div>
+                                    <label>대비</label>
+                                    <input type="range" v-model="contrast" min="0" max="2" step="0.1" />
+                                </div>
+                                <div>
+                                    <label>채도</label>
+                                    <input type="range" v-model="saturation" min="0" max="2" step="0.1" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="title-area">
+                                <p class="title">방송 주제</p>
+                            </div>
+                            <div class="category-area">
+                                <div v-for="(category, index) in categories" :key="index">
+                                    <input type="radio" v-model="selectedCategory" :value="category"
+                                        :id="'category' + (index + 1)" name="category" class="d-none" />
+                                    <label :for="'category' + (index + 1)">{{ category }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div v-if="selectedTab === 'tab2'">TAB2</div>
                     <div v-if="selectedTab === 'tab3'">TAB3</div>
                     <div v-if="selectedTab === 'tab4'">TAB4</div>
@@ -271,17 +384,6 @@
                 border-radius: 8px;
             }
 
-            >.broadcast-overlay {
-                z-index: 1;
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background-color: rgba($color: #000000, $alpha: 0.5);
-                border-radius: 8px;
-            }
-
             >.content-area {
                 z-index: 2;
                 position: absolute;
@@ -294,7 +396,7 @@
 
                 >.title-area {
                     padding: 12px 16px;
-                    background-color: rgba($color: #000000, $alpha: 0.35);
+                    background-color: rgba($color: #000000, $alpha: 0.75);
                     border-radius: 8px 8px 0 0;
 
                     >.broadcaster-area {
@@ -400,6 +502,10 @@
                     }
                 }
 
+                >.video-area {
+                    flex: 2;
+                }
+
                 >.chat-area {
                     flex: 1;
                     padding: 16px 24px;
@@ -410,6 +516,7 @@
                     line-height: 1.5;
                     display: flex;
                     flex-direction: column;
+                    background-color: rgba($color: #000000, $alpha: 0.5);
                     overflow-y: auto;
                     gap: 12px;
 
@@ -484,7 +591,7 @@
                     align-items: center;
                     background-color: rgba($color: #000000, $alpha: 0.75);
                     padding: 12px 24px;
-                    border-radius: 16px 16px 8px 8px;
+                    border-radius: 0 0 8px 8px;
                     gap: 16px;
 
                     >input {
@@ -513,6 +620,8 @@
             color: white;
             border-radius: 8px;
             text-align: start;
+            display: flex;
+            flex-direction: column;
 
             >.tab-menu {
                 display: grid;
@@ -550,6 +659,174 @@
 
             >.tab-content {
                 padding: 16px 24px;
+                overflow-y: auto;
+                flex: 1;
+
+                &::-webkit-scrollbar {
+                    background: transparent;
+                    width: 8px;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background: rgba($color: #fff, $alpha: 0.5); // 스크롤바 바의 색상 및 투명도 설정
+                    border-radius: 100rem; // 스크롤바 바의 모서리를 둥글게 설정
+                }
+
+                >div {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 24px;
+                    overflow-y: auto;
+                    height: auto;
+
+                    >div {
+                        >.title-area {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+
+                            >.title {
+                                font-weight: 700;
+                                font-size: 20px;
+                            }
+
+                            >.desc {
+                                font-weight: 500;
+                                font-size: 14px;
+                            }
+                        }
+
+                        >div-.check-area {
+                            margin-top: 12px;
+
+                            >div {
+                                width: 100%;
+                                display: flex;
+                                align-items: center;
+
+
+                                >label {
+                                    font-weight: 500;
+                                    width: 36px;
+                                    text-align: start;
+                                }
+
+                                >input {
+                                    margin-left: 8px;
+                                    width: 100%;
+                                }
+                            }
+                        }
+
+                        >input,
+                        select,
+                        textarea {
+                            width: 100%;
+                            margin-top: 12px;
+                            font-size: 16px;
+                            font-weight: 500;
+                            padding: 8px 12px;
+                            border-radius: 8px;
+                        }
+
+                        >.image-area {
+                            width: 100%;
+                            margin-top: 12px;
+                            aspect-ratio: 9 / 16;
+                            border-radius: 8px;
+                            border: 2px solid #434343;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            background-position: center center;
+                        }
+
+                        >.check-area {
+                            display: flex;
+                            align-items: center;
+                            justify-content: start;
+                            margin-top: 12px;
+                            gap: 16px;
+                            row-gap: 8px;
+                            flex-wrap: wrap;
+
+                            >div {
+                                >label {
+                                    font-size: 16px;
+                                    font-weight: 500;
+                                }
+
+                                >input {
+                                    margin-right: 4px;
+                                }
+                            }
+                        }
+
+                        >.volume-bar {
+                            width: 240px;
+                            height: 12px;
+                            background-color: #ddd;
+                            border-radius: 8px;
+                            overflow: hidden;
+                            margin-top: 12px;
+
+                            >.volume-fill {
+                                height: 100%;
+                                transition: width 100ms ease-in-out;
+                            }
+                        }
+
+                        >.filter-area {
+                            >div:nth-child(1) {
+                                margin-top: 12px;
+                            }
+
+                            >div {
+
+                                >label {
+                                    font-weight: 500;
+                                }
+
+                                >input {
+                                    width: 100%;
+                                    margin-top: 4px;
+                                }
+                            }
+                        }
+
+                        >.category-area {
+                            display: flex;
+                            align-items: center;
+                            flex-wrap: wrap;
+                            gap: 8px;
+                            row-gap: 20px;
+                            margin-top: 12px;
+
+                            >div {
+                                >label {
+                                    cursor: pointer;
+                                    border: 1.5px solid #434343;
+                                    padding: 4px 12px;
+                                    border-radius: 100rem;
+                                    font-weight: 500;
+                                    font-size: 14px;
+                                    background-color: #fff;
+                                    color: black;
+                                }
+
+                                >input:checked+label {
+                                    background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
+                                    border-color: transparent;
+                                    font-weight: 700;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -579,6 +856,23 @@ const channel = "test";
 // const token = "<-- Insert token -->"; 
 const token = null;
 const uid = ref(0); // User ID
+
+const title = ref("방송 제목 테스트");
+const textNotice = ref("공지사항 테스트입니다.");
+
+const categories = isVideoBroadcast ? [
+    "브이로그", "여행", "먹방", "게임", "영화", "리뷰", "실험", "공방", "요리", "피트니스",
+    "스포츠", "챌린지", "뷰티", "패션", "다이어트", "음악", "연주", "일상", "반려동물", "장난감",
+    "ASMR", "자동차", "사진", "드로잉", "메이크업", "운동", "낚시", "캠핑", "야외", "경제",
+    "주식", "부동산", "자동차", "테스트", "자전거", "헬스", "무술", "취미", "공예", "DIY",
+    "IT", "드라마", "연극", "교육", "역사", "예술", "마술", "전시회", "라이프", "도전"
+] : [
+    "음악", "사연", "감성", "고민", "일기", "ASMR", "공포", "연애", "심리", "뉴스",
+    "역사", "정치", "경제", "스포츠", "자기계발", "명상", "문학", "독서", "철학", "리뷰",
+    "인터뷰", "토론", "여행", "퀴즈", "유머", "건강", "생활", "교육", "이슈", "실험",
+    "동화", "광고", "법률", "재테크", "비즈니스", "직장", "창업", "기술", "IT", "개발",
+    "예술", "작곡", "패션", "SNS", "식사", "음식", "취미", "트렌드", "마케팅", "성격"
+];
 
 const selectTab = (tab) => {
     selectedTab.value = tab;

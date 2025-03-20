@@ -200,7 +200,7 @@
                     }
 
                     >input:checked+label {
-                        background: linear-gradient(90deg, #2af598 0%, #009efd 100%);
+                        background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
                         border-color: transparent;
                         font-weight: 700;
                     }

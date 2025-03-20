@@ -14,7 +14,7 @@
                 <button class="tab-button" @click="selectTab('tab1')">{{ titleFilled ? "✅ 기본 정보" : "❌ 기본 정보" }}</button>
                 <button class="tab-button" @click="selectTab('tab2')">{{ readyDevice ? "✅ 장비 설정" : "❌ 장비 설정" }}</button>
                 <button class="tab-button" @click="selectTab('tab3')">{{ selectedCategory ? "✅ 방송 주제" : "❌ 방송 주제"
-                }}</button>
+                    }}</button>
             </div>
             <!-- 선택된 탭의 내용 표시 -->
             <div class="tab-content">
@@ -233,7 +233,7 @@
                     }
 
                     >input:checked+label {
-                        background: linear-gradient(90deg, #2af598 0%, #009efd 100%);
+                        background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
                         border-color: transparent;
                         font-weight: 700;
                     }

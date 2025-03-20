@@ -3,7 +3,7 @@
         <div class="dialog-content">
             <div class="dialog-header">
                 <div class="logo-area">
-                    <p class="logo-font">FLOW</p>
+                    <p class="logo-font">MATEIT</p>
                     <p>충전하기</p>
                 </div>
                 <div class="btn-area">
@@ -50,7 +50,7 @@
                 <div class="info-area">
                     <p>결제 이용 시 안내</p>
                     <ul>
-                        <li>하트는 FLOW의 유료서비스를 이용하기 위해 사용하는 재화의 단위입니다.</li>
+                        <li>하트는 MATEIT의 유료서비스를 이용하기 위해 사용하는 재화의 단위입니다.</li>
                         <li>모든 상품은 부가가치세가 포함된 가격입니다.</li>
                         <li>환불 시 사용된 하트는 환불 금액에서 제외됩니다.</li>
                         <li>환불을 원할 경우, 이메일(innovape@naver.com)을 통하여 회원 본인임을 인증하는 절차를 거쳐서 고객센터에 접수해야 합니다.</li>

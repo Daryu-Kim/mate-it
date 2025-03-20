@@ -11,7 +11,17 @@
 <script setup>
 import MainHeader from '@/components/template/MainHeader.vue';
 import LoginDialog from '@/components/dialog/LoginDialog.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { getCurrentSession } from '@/lib/supabase';
 
-const isLoggedIn = ref(true);
+const isLoggedIn = ref(false);
+
+onMounted(async () => {
+  const session = await getCurrentSession();
+  if (session) {
+    isLoggedIn.value = false;
+  } else {
+    isLoggedIn.value = true;
+  }
+})
 </script>
