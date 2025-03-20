@@ -146,6 +146,7 @@
 </template>
 
 <script setup>
+import { loginWithSocialAccount } from '@/lib/supabase';
 import { ref, watch } from 'vue';
 
 const props = defineProps({
@@ -169,7 +170,10 @@ const close = () => {
 };
 
 const loginWithSocial = async (provider) => {
-  // const authData = await pb.collection('users').authWithOAuth2({ provider: provider });
+  const data = await loginWithSocialAccount(provider);
+  if (data) {
+    window.location.reload();
+  }
 }
 </script>
 

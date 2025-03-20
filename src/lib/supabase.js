@@ -12,3 +12,13 @@ export async function getCurrentSession() {
     }
     return session;
 }
+
+export async function loginWithSocialAccount(provider) {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: provider,
+    });
+    if (error) {
+        return null;
+    }
+    return data;
+}
