@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
+    "@vercel/speed-insights": "^1.2.0",
     "agora-rtc-sdk-ng": "^4.23.2",
     "core-js": "^3.8.3",
     "os-browserify": "^0.3.0",
