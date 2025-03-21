@@ -18,7 +18,11 @@ export async function loginWithSocialAccount(provider) {
         provider: provider,
     });
     if (error) {
+        // 로그인 실패
         return null;
     }
+
+    
+    // 
     return data;
 }

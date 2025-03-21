@@ -8,7 +8,7 @@
       </div>
       <div class="btn-area">
         <div class="main-btn-area">
-          <button class="full-width-primary-btn" @click="loginWithSocial('kakao')">
+          <button class="full-width-primary-btn" @click="loginWithSocialAccount('kakao')">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <g>
                 <path d="M0 0h24v24H0z" fill="none" />
@@ -146,7 +146,7 @@
 </template>
 
 <script setup>
-import { loginWithSocialAccount } from '@/lib/supabase';
+import { loginWithSocialAccount, supabase } from '@/lib/supabase';
 import { ref, watch } from 'vue';
 
 const props = defineProps({
@@ -170,10 +170,13 @@ const close = () => {
 };
 
 const loginWithSocial = async (provider) => {
-  const data = await loginWithSocialAccount(provider);
-  if (data) {
-    window.location.reload();
-  }
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'kakao',
+  })
+  // const data = await loginWithSocialAccount(provider);
+  // if (data) {
+  //   window.location.reload();
+  // }
 }
 </script>
 
