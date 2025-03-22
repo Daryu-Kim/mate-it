@@ -9,12 +9,18 @@ import ReadyVideoBroadcast from '@/views/ReadyVideoBroadcast.vue'
 import ReadyAudioBroadcast from '@/views/ReadyAudioBroadcast.vue'
 import { getCurrentSession } from '@/lib/supabase'
 import NotFoundView from '@/views/NotFoundView.vue'
+import SignupView from '@/views/SignupView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: SignupView
   },
   {
     path: '/today',

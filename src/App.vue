@@ -47,6 +47,13 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
+
+  &:disabled {
+    background: none;
+    border: 1.5px solid #cdcdcd;
+    cursor: not-allowed;
+  }
 }
 
 .full-width-outline-btn {
