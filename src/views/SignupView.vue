@@ -10,6 +10,7 @@
 
 <script setup lang="js">
 import BirthdateComponent from "@/components/signup/BirthdateComponent.vue";
+import GenderComponent from "@/components/signup/GenderComponent.vue";
 
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -18,7 +19,8 @@ const router = useRouter();
 const route = useRoute();
 
 const stepComponents = {
-    1: BirthdateComponent
+    1: BirthdateComponent,
+    2: GenderComponent
 };
 
 const step = ref(Number(route.query.step) || 1);
