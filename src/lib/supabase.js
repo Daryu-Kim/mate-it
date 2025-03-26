@@ -23,20 +23,11 @@ const requiredFields = [
 ];
 
 export async function loginWithSocialAccount(provider) {
-    var options = {};
-    switch (provider) {
-        case 'kakao':
-            options = {
-                redirectTo: 'https://wulaoyjmbmfyoglgrldq.supabase.co/auth/v1/callback'
-            }
-            break;
-    
-        default:
-            break;
-    }
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: provider,
-        options: options
+        options: {
+            process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://mate-it.vercel.app/'
+        }
     });
 
     if (error) {
