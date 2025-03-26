@@ -1131,37 +1131,37 @@
   resolved "https://registry.npmjs.org/@soda/get-current-script/-/get-current-script-1.0.2.tgz"
   integrity sha512-T7VNNlYVM1SgQ+VsMYhnDkcGmWhQdL0bDyGm5TlQ3GBXnJscEClUUOKduWTmm2zCnvNLC1hc3JpuXjs/nFOc5w==
 
-"@supabase/auth-js@2.68.0":
-  version "2.68.0"
-  resolved "https://registry.yarnpkg.com/@supabase/auth-js/-/auth-js-2.68.0.tgz#e1fb51ed577952d16faf86ee47db1fd3d1c4e7db"
-  integrity sha512-odG7nb7aOmZPUXk6SwL2JchSsn36Ppx11i2yWMIc/meUO2B2HK9YwZHPK06utD9Ql9ke7JKDbwGin/8prHKxxQ==
+"@supabase/auth-js@2.69.0":
+  version "2.69.0"
+  resolved "https://registry.npmjs.org/@supabase/auth-js/-/auth-js-2.69.0.tgz"
+  integrity sha512-y3x/oYxBVjEsM+YJCFDnPqB017pb8nBcC+E6ieUJmf7LtfkcqfeSo06ZqNIjVw3w0k1PJRiXwKvTxBhBTxrqPg==
   dependencies:
     "@supabase/node-fetch" "^2.6.14"
 
 "@supabase/functions-js@2.4.4":
   version "2.4.4"
-  resolved "https://registry.yarnpkg.com/@supabase/functions-js/-/functions-js-2.4.4.tgz#45fcd94d546bdfa66d01f93a796ca0304ec154b8"
+  resolved "https://registry.npmjs.org/@supabase/functions-js/-/functions-js-2.4.4.tgz"
   integrity sha512-WL2p6r4AXNGwop7iwvul2BvOtuJ1YQy8EbOd0dhG1oN1q8el/BIRSFCFnWAMM/vJJlHWLi4ad22sKbKr9mvjoA==
   dependencies:
     "@supabase/node-fetch" "^2.6.14"
 
 "@supabase/node-fetch@2.6.15", "@supabase/node-fetch@^2.6.14":
   version "2.6.15"
-  resolved "https://registry.yarnpkg.com/@supabase/node-fetch/-/node-fetch-2.6.15.tgz#731271430e276983191930816303c44159e7226c"
+  resolved "https://registry.npmjs.org/@supabase/node-fetch/-/node-fetch-2.6.15.tgz"
   integrity sha512-1ibVeYUacxWYi9i0cf5efil6adJ9WRyZBLivgjs+AUpewx1F3xPi7gLgaASI2SmIQxPoCEjAsLAzKPgMJVgOUQ==
   dependencies:
     whatwg-url "^5.0.0"
 
 "@supabase/postgrest-js@1.19.2":
   version "1.19.2"
-  resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-1.19.2.tgz#cb721860fefd9ec2818bbafc56de4314c0ebca81"
+  resolved "https://registry.npmjs.org/@supabase/postgrest-js/-/postgrest-js-1.19.2.tgz"
   integrity sha512-MXRbk4wpwhWl9IN6rIY1mR8uZCCG4MZAEji942ve6nMwIqnBgBnZhZlON6zTTs6fgveMnoCILpZv1+K91jN+ow==
   dependencies:
     "@supabase/node-fetch" "^2.6.14"
 
 "@supabase/realtime-js@2.11.2":
   version "2.11.2"
-  resolved "https://registry.yarnpkg.com/@supabase/realtime-js/-/realtime-js-2.11.2.tgz#7f7399c326be717eadc9d5e259f9e2690fbf83dd"
+  resolved "https://registry.npmjs.org/@supabase/realtime-js/-/realtime-js-2.11.2.tgz"
   integrity sha512-u/XeuL2Y0QEhXSoIPZZwR6wMXgB+RQbJzG9VErA3VghVt7uRfSVsjeqd7m5GhX3JR6dM/WRmLbVR8URpDWG4+w==
   dependencies:
     "@supabase/node-fetch" "^2.6.14"
@@ -1169,19 +1169,29 @@
     "@types/ws" "^8.5.10"
     ws "^8.18.0"
 
+"@supabase/realtime-js@^2.11.5":
+  version "2.11.5"
+  resolved "https://registry.npmjs.org/@supabase/realtime-js/-/realtime-js-2.11.5.tgz"
+  integrity sha512-tc2dzAIP2bJJCFupS5VV/cmAiG8sVuYF3n/yzde/W3g2b67yln1W6nao500asGCvPKg8TdNuHrl2rzC4+YUdeg==
+  dependencies:
+    "@supabase/node-fetch" "^2.6.14"
+    "@types/phoenix" "^1.6.6"
+    "@types/ws" "^8.5.14"
+    ws "^8.18.0"
+
 "@supabase/storage-js@2.7.1":
   version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@supabase/storage-js/-/storage-js-2.7.1.tgz#761482f237deec98a59e5af1ace18c7a5e0a69af"
+  resolved "https://registry.npmjs.org/@supabase/storage-js/-/storage-js-2.7.1.tgz"
   integrity sha512-asYHcyDR1fKqrMpytAS1zjyEfvxuOIp1CIXX7ji4lHHcJKqyk+sLl/Vxgm4sN6u8zvuUtae9e4kDxQP2qrwWBA==
   dependencies:
     "@supabase/node-fetch" "^2.6.14"
 
 "@supabase/supabase-js@^2.49.1":
-  version "2.49.1"
-  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-2.49.1.tgz#457f7b19722d2cff064a1923399a42b855c4a9b8"
-  integrity sha512-lKaptKQB5/juEF5+jzmBeZlz69MdHZuxf+0f50NwhL+IE//m4ZnOeWlsKRjjsM0fVayZiQKqLvYdBn0RLkhGiQ==
+  version "2.49.2"
+  resolved "https://registry.npmjs.org/@supabase/supabase-js/-/supabase-js-2.49.2.tgz"
+  integrity sha512-ANbmL72JDY9atLZwedq0dLosVR+JM4qJZx3Un9Ip7kB4TZ8u2RrUFt1/ug4Bykm1h6UcQuHvxCkbrVIDTfUNvg==
   dependencies:
-    "@supabase/auth-js" "2.68.0"
+    "@supabase/auth-js" "2.69.0"
     "@supabase/functions-js" "2.4.4"
     "@supabase/node-fetch" "2.6.15"
     "@supabase/postgrest-js" "1.19.2"
@@ -1355,9 +1365,9 @@
   resolved "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.2.tgz"
   integrity sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==
 
-"@types/phoenix@^1.5.4":
+"@types/phoenix@^1.5.4", "@types/phoenix@^1.6.6":
   version "1.6.6"
-  resolved "https://registry.yarnpkg.com/@types/phoenix/-/phoenix-1.6.6.tgz#3c1ab53fd5a23634b8e37ea72ccacbf07fbc7816"
+  resolved "https://registry.npmjs.org/@types/phoenix/-/phoenix-1.6.6.tgz"
   integrity sha512-PIzZZlEppgrpoT2QgbnDU+MMzuR6BbCjllj0bM70lWoejMeNJAxCchxnv7J3XFkI8MpygtRpzXrIlmWUBclP5A==
 
 "@types/qs@*":
@@ -1418,14 +1428,7 @@
   resolved "https://registry.npmjs.org/@types/trusted-types/-/trusted-types-2.0.7.tgz"
   integrity sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==
 
-"@types/ws@^8.5.10":
-  version "8.18.0"
-  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-8.18.0.tgz#8a2ec491d6f0685ceaab9a9b7ff44146236993b5"
-  integrity sha512-8svvI3hMyvN0kKCJMvTJP/x6Y/EoQbepff882wL+Sn5QsXb3etnamgrJq4isrBxSJj5L2AuXcI0+bgkoAXGUJw==
-  dependencies:
-    "@types/node" "*"
-
-"@types/ws@^8.5.5":
+"@types/ws@^8.5.10", "@types/ws@^8.5.14", "@types/ws@^8.5.5":
   version "8.5.14"
   resolved "https://registry.npmjs.org/@types/ws/-/ws-8.5.14.tgz"
   integrity sha512-bd/YFLW+URhBzMXurx7lWByOu+xzU9+kb3RboOteXYDfW+tr+JZa99OyNmPINEGB/ahzKrEuc8rcv4gnpJmxTw==
@@ -1434,7 +1437,7 @@
 
 "@vercel/speed-insights@^1.2.0":
   version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@vercel/speed-insights/-/speed-insights-1.2.0.tgz#1656c3596d4ec02d93d301ca45944c1b9b245186"
+  resolved "https://registry.npmjs.org/@vercel/speed-insights/-/speed-insights-1.2.0.tgz"
   integrity sha512-y9GVzrUJ2xmgtQlzFP2KhVRoCglwfRQgjyfY607aU0hh0Un6d0OUyrJkjuAlsV18qR4zfoFPs/BiIj9YDS6Wzw==
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.4.0":
@@ -6644,6 +6647,11 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
+vue3-scroll-picker@^0.1.15:
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/vue3-scroll-picker/-/vue3-scroll-picker-0.1.15.tgz#88ab2b2dfdce37c9111bba2af80b72bb7d0ffc3b"
+  integrity sha512-Wa7e6nZVP+CAlBKX6neZf9Qcp8NjVvWcUrxqEsyEgI1hd8DJx84pMyYvovr7Q7Hc2TpA0bt9iZv/QXwXI413aQ==
+
 vue@^3.2.13:
   version "3.5.13"
   resolved "https://registry.npmjs.org/vue/-/vue-3.5.13.tgz"
@@ -7138,7 +7146,7 @@ ws@^7.3.1:
   resolved "https://registry.npmjs.org/ws/-/ws-7.5.10.tgz"
   integrity sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==
 
-ws@^8.13.0, ws@^8.18.0:
+ws@^8.13.0, ws@^8.18.0, ws@^8.18.1:
   version "8.18.1"
   resolved "https://registry.npmjs.org/ws/-/ws-8.18.1.tgz"
   integrity sha512-RKW2aJZMXeMxVpnZ6bck+RswznaxmzdULiBr6KY7XkTnW8uvt0iT9H5DkHUChXrc+uurzwa0rVI16n/Xzjdz1w==

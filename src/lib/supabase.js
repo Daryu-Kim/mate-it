@@ -16,15 +16,27 @@ export async function getCurrentSession() {
 
 // 필수 입력 필드 목록
 const requiredFields = [
-    'birthdate', 'gender', 'avatar_main', 'bio', 'height', 'body_type',
+    'birthdate', 'gender', 'height', 'body_type',
     'education', 'job', 'religion', 'drinking', 'smoking', 'mbti',
     'personality', 'interests', 'fav_music', 'fav_movie',
-    'looking_for', 'ideal_type'
+    'looking_for', 'ideal_type', 'avatar_main', 'bio'
 ];
 
 export async function loginWithSocialAccount(provider) {
+    var options = {};
+    switch (provider) {
+        case 'kakao':
+            options = {
+                redirectTo: 'https://wulaoyjmbmfyoglgrldq.supabase.co/auth/v1/callback'
+            }
+            break;
+    
+        default:
+            break;
+    }
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: provider,
+        options: options
     });
 
     if (error) {

@@ -29,6 +29,13 @@ import { SpeedInsights } from "@vercel/speed-insights/vue"
   transition: all 200ms ease-in-out;
 }
 
+.scroll-picker-container {
+  width: 100%;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 28px;
+}
+
 button {
   border: none;
   outline: none;

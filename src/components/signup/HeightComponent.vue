@@ -1,11 +1,11 @@
 <template>
-    <div class="gender-signup">
+    <div class="height-signup">
         <div>
             <div class="title-area">
-                <p>당신의 성별을 알려주세요.</p>
+                <p>당신의 키를 알려주세요.</p>
             </div>
             <div class="input-area">
-                <ScrollPicker v-model="gender" :options="options" />
+                <ScrollPicker v-model="height" :options="options" />
             </div>
         </div>
         <div>
@@ -15,7 +15,7 @@
 </template>
 
 <style lang="scss" scoped>
-.gender-signup {
+.height-signup {
     padding: 36px 24px;
     padding-top: 64px;
     height: 100dvh;
@@ -49,17 +49,15 @@
 import { computed, ref } from 'vue';
 import ScrollPicker from 'vue3-scroll-picker';
 
-const gender = ref([]);
-const isFilled = computed(() => gender.value);
+const height = ref([]);
+const isFilled = computed(() => height.value);
 
-const options = [
-    [{
-        label: '남성', // label에 "cm" 추가
-        value: 'male', // value를 string으로 변환
-    },
-    {
-        label: '여성', // label에 "cm" 추가
-        value: 'female', // value를 string으로 변환
-    }]
-];
+const options =
+    [Array.from({ length: 61 }, (_, index) => {
+        const heightValue = index + 140; // 140부터 200까지의 값 생성
+        return {
+            label: `${heightValue} cm`, // label에 "cm" 추가
+            value: heightValue.toString(), // value를 string으로 변환
+        };
+    })];
 </script>
