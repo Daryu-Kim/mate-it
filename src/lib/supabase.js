@@ -16,10 +16,10 @@ export async function getCurrentSession() {
 
 // 필수 입력 필드 목록
 const requiredFields = [
-    'birthdate', 'gender', 'height', 'body_type',
+    'nickname', 'birthdate', 'gender', 'height', 'body_type',
     'education', 'job', 'religion', 'drinking', 'smoking', 'mbti',
     'personality', 'interests', 'fav_music', 'fav_movie',
-    'looking_for', 'ideal_type', 'avatar_main', 'bio'
+    'ideal_type', 'looking_for', 'bio', 'avatar_main'
 ];
 
 export async function loginWithSocialAccount(provider) {

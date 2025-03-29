@@ -32,8 +32,11 @@ import { SpeedInsights } from "@vercel/speed-insights/vue"
 .scroll-picker-container {
   width: 100%;
   font-weight: 700;
-  font-size: 14px;
   line-height: 28px;
+
+  * {
+    font-size: 16px;
+  }
 }
 
 button {

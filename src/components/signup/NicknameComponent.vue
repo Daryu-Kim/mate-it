@@ -1,11 +1,11 @@
 <template>
-    <div class="height-signup">
+    <div class="nickname-signup">
         <div>
             <div class="title-area">
-                <p>키가 어떻게 되시나요?<br />대충이라도 괜찮아요! 📏</p>
+                <p>닉네임을 정해주세요!<br />당신을 표현할 멋진 이름! ✨</p>
             </div>
             <div class="input-area">
-                <ScrollPicker v-model="height" :options="options" />
+                <input type="text" maxlength="10" v-model="nickname" placeholder="10자 내외로 입력해주세요" />
             </div>
         </div>
         <div>
@@ -15,7 +15,7 @@
 </template>
 
 <style lang="scss" scoped>
-.height-signup {
+.nickname-signup {
     padding: 36px 24px;
     padding-top: 64px;
     height: calc(100dvh - 16px);
@@ -35,6 +35,21 @@
 
         >.input-area {
             margin-top: 24px;
+
+            >input {
+                width: 100%;
+                font-weight: 700;
+                padding: 16px;
+                font-size: 16px;
+                background-color: #efefef;
+                border: none;
+                border-radius: 8px;
+
+                &:focus {
+                    background-color: white;
+                }
+
+            }
         }
 
         >button {
@@ -46,18 +61,9 @@
 </style>
 
 <script setup lang="js">
-import { computed, ref } from 'vue';
-import ScrollPicker from 'vue3-scroll-picker';
+import { ref, computed } from 'vue';
 
-const height = ref([]);
-const isFilled = computed(() => height.value);
+const nickname = ref([]);
+const isFilled = computed(() => nickname.value.length > 0);
 
-const options =
-    [Array.from({ length: 61 }, (_, index) => {
-        const heightValue = index + 140; // 140부터 200까지의 값 생성
-        return {
-            label: `${heightValue} cm`, // label에 "cm" 추가
-            value: heightValue.toString(), // value를 string으로 변환
-        };
-    })];
 </script>

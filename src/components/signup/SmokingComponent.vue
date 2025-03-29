@@ -1,11 +1,11 @@
 <template>
-    <div class="height-signup">
+    <div class="smoking-signup">
         <div>
             <div class="title-area">
-                <p>키가 어떻게 되시나요?<br />대충이라도 괜찮아요! 📏</p>
+                <p>흡연은 하시나요?<br />아니면 거리 두는 편인가요? 🚬❌</p>
             </div>
             <div class="input-area">
-                <ScrollPicker v-model="height" :options="options" />
+                <ScrollPicker v-model="smoking" :options="options" />
             </div>
         </div>
         <div>
@@ -15,7 +15,7 @@
 </template>
 
 <style lang="scss" scoped>
-.height-signup {
+.smoking-signup {
     padding: 36px 24px;
     padding-top: 64px;
     height: calc(100dvh - 16px);
@@ -49,15 +49,27 @@
 import { computed, ref } from 'vue';
 import ScrollPicker from 'vue3-scroll-picker';
 
-const height = ref([]);
-const isFilled = computed(() => height.value);
+const smoking = ref([]);
+const isFilled = computed(() => smoking.value);
 
-const options =
-    [Array.from({ length: 61 }, (_, index) => {
-        const heightValue = index + 140; // 140부터 200까지의 값 생성
-        return {
-            label: `${heightValue} cm`, // label에 "cm" 추가
-            value: heightValue.toString(), // value를 string으로 변환
-        };
-    })];
+const options = [
+    [
+        {
+            "label": "비흡연자",
+            "value": "non_smoker"
+        },
+        {
+            "label": "가끔 피움",
+            "value": "occasionally"
+        },
+        {
+            "label": "자주 피움",
+            "value": "frequent_smoker"
+        },
+        {
+            "label": "전자담배만 피움",
+            "value": "only_vaping"
+        }
+    ]
+];
 </script>

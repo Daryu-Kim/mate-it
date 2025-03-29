@@ -2,7 +2,7 @@
     <div class="birthdate-signup">
         <div>
             <div class="title-area">
-                <p>당신의 생일을 알려주세요.</p>
+                <p>언제 태어나셨나요?<br />생일을 알려주세요! 🎂</p>
             </div>
             <div class="input-area">
                 <ScrollPicker v-model="selections" :options="options" />
@@ -18,7 +18,7 @@
 .birthdate-signup {
     padding: 36px 24px;
     padding-top: 64px;
-    height: 100dvh;
+    height: calc(100dvh - 16px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -28,7 +28,7 @@
             >p {
                 word-break: keep-all;
                 font-weight: 700;
-                font-size: 28px;
+                font-size: 24px;
                 text-align: start;
             }
         }

@@ -2,7 +2,7 @@
     <div class="gender-signup">
         <div>
             <div class="title-area">
-                <p>당신의 성별을 알려주세요.</p>
+                <p>성별을 선택해주세요!<br />뭐든 자신 있게! 😉</p>
             </div>
             <div class="input-area">
                 <ScrollPicker v-model="gender" :options="options" />
@@ -18,7 +18,7 @@
 .gender-signup {
     padding: 36px 24px;
     padding-top: 64px;
-    height: 100dvh;
+    height: calc(100dvh - 16px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -28,7 +28,7 @@
             >p {
                 word-break: keep-all;
                 font-weight: 700;
-                font-size: 28px;
+                font-size: 24px;
                 text-align: start;
             }
         }

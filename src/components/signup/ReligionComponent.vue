@@ -1,11 +1,11 @@
 <template>
-    <div class="height-signup">
+    <div class="religion-signup">
         <div>
             <div class="title-area">
-                <p>키가 어떻게 되시나요?<br />대충이라도 괜찮아요! 📏</p>
+                <p>종교가 있으신가요?<br />편하게 알려주세요! 🙏</p>
             </div>
             <div class="input-area">
-                <ScrollPicker v-model="height" :options="options" />
+                <ScrollPicker v-model="religion" :options="options" />
             </div>
         </div>
         <div>
@@ -15,7 +15,7 @@
 </template>
 
 <style lang="scss" scoped>
-.height-signup {
+.religion-signup {
     padding: 36px 24px;
     padding-top: 64px;
     height: calc(100dvh - 16px);
@@ -49,15 +49,43 @@
 import { computed, ref } from 'vue';
 import ScrollPicker from 'vue3-scroll-picker';
 
-const height = ref([]);
-const isFilled = computed(() => height.value);
+const religion = ref([]);
+const isFilled = computed(() => religion.value);
 
-const options =
-    [Array.from({ length: 61 }, (_, index) => {
-        const heightValue = index + 140; // 140부터 200까지의 값 생성
-        return {
-            label: `${heightValue} cm`, // label에 "cm" 추가
-            value: heightValue.toString(), // value를 string으로 변환
-        };
-    })];
+const options = [
+    [
+        {
+            "label": "무교",
+            "value": "none"
+        },
+        {
+            "label": "기독교",
+            "value": "christian"
+        },
+        {
+            "label": "천주교",
+            "value": "catholic"
+        },
+        {
+            "label": "불교",
+            "value": "buddhist"
+        },
+        {
+            "label": "이슬람교",
+            "value": "muslim"
+        },
+        {
+            "label": "힌두교",
+            "value": "hindu"
+        },
+        {
+            "label": "유대교",
+            "value": "jewish"
+        },
+        {
+            "label": "기타",
+            "value": "other_religion"
+        }
+    ]
+];
 </script>
