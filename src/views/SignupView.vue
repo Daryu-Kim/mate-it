@@ -40,6 +40,7 @@ import NicknameComponent from "@/components/signup/NicknameComponent.vue";
 import PersonalityComponent from "@/components/signup/PersonalityComponent.vue";
 import ReligionComponent from "@/components/signup/ReligionComponent.vue";
 import SmokingComponent from "@/components/signup/SmokingComponent.vue";
+import WaitComponent from "@/components/signup/WaitComponent.vue";
 
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -66,7 +67,8 @@ const stepComponents = {
     16: IdealTypeComponent,
     17: LookingForComponent,
     18: BioComponent,
-    19: AvatarComponent
+    19: AvatarComponent,
+    20: WaitComponent
 };
 
 const step = ref(Number(route.query.step) || 1);

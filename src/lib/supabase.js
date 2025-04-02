@@ -16,25 +16,24 @@ export async function getCurrentSession() {
 
 // 필수 입력 필드 목록
 const requiredFields = [
-    'nickname', 'birthdate', 'gender', 'height', 'body_type',
+    'username', 'birthdate', 'gender', 'height', 'body_type',
     'education', 'job', 'religion', 'drinking', 'smoking', 'mbti',
     'personality', 'interests', 'fav_music', 'fav_movie',
-    'ideal_type', 'looking_for', 'bio', 'avatar_main'
+    'ideal_type', 'looking_for', 'bio', 'avatar_main', 'is_verified'
 ];
 
 export async function loginWithSocialAccount(provider) {
     const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: provider,
-        options: {
-            redirectTo: process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://mate-it.vercel.app/'
-        }
+        provider: provider
     });
 
     if (error) {
         console.error('소셜 로그인 실패:', error.message);
         return null;
     }
+}
 
+export async function checkUserData() {
     // 로그인 후 세션 가져오기
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
     if (sessionError || !sessionData.session) {
@@ -54,7 +53,11 @@ export async function loginWithSocialAccount(provider) {
 
     if (usersError || !userProfile) {
         // (C) 데이터가 없으면 새 계정 생성 후 회원가입 페이지로 이동
-        await supabase.from('users').insert([{ id: userId, email: user.email }]);
+        const { error: insertError } = await supabase.from('users').insert([{ id: userId, email: user.email }]);
+        if (insertError) {
+            console.error('사용자 생성 실패:', insertError.message);
+            return null;
+        }
         await supabase.from('user_status').insert([{ user_id: userId }]);
         router.push('/signup');
         return;
@@ -62,12 +65,9 @@ export async function loginWithSocialAccount(provider) {
 
     // (B) 필수 필드 개별 체크 후 해당 페이지로 리디렉션
     for (const field of requiredFields) {
-        if (!userProfile[field.key]) {
-            router.push(field.path);
+        if (!userProfile[field]) {
+            router.push(`/signup?step=${requiredFields.indexOf(field)+1}`);
             return;
         }
     }
-
-    // (A) 모든 필수 정보가 입력되었으면 홈으로 이동
-    router.push('/home');
 }

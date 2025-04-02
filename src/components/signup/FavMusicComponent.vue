@@ -31,7 +31,7 @@
             </div>
         </div>
         <div>
-            <button class="full-width-primary-btn" :disabled="!isFilled" @click="$emit('nextStep')">확인</button>
+            <button class="full-width-primary-btn" :disabled="!isFilled" @click="nextStep">확인</button>
         </div>
     </div>
 </template>
@@ -138,12 +138,15 @@
 </style>
 
 <script setup lang="js">
-import { ref, computed } from 'vue';
+import { supabase } from '@/lib/supabase';
+import { ref, computed, defineEmits } from 'vue';
 
 const track_name = ref('');
 const track_list = ref([]);
 const track_selected = ref({});
 const isFilled = computed(() => Object.keys(track_selected.value).length > 0);
+
+const emit = defineEmits();
 
 const getSpotifyToken = async () => {
     const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -171,5 +174,27 @@ const searchTrackName = async () => {
     const data = await response.json();
     track_selected.value = {};
     track_list.value = data.tracks.items; // 받아온 정보를 track_list에 저장
+}
+
+const nextStep = async () => {
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession(); // 현재 세션 정보 가져오기
+
+    if (sessionError || !session || !session.user) {
+        console.error('세션 정보가 유효하지 않습니다.');
+        return; // 세션 정보가 없으면 함수 종료
+    }
+
+    const userId = session.user.id; // UID 가져오기
+
+    const { error } = await supabase
+        .from('users')
+        .update({ fav_music: track_selected.value }) // 생일 업데이트
+        .eq('id', userId); // UID로 조건 설정
+
+    if (error) {
+        console.error('데이터 업데이트 오류:', error);
+    } else {
+        emit('nextStep'); // 이벤트 호출
+    }
 }
 </script>

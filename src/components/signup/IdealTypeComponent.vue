@@ -13,7 +13,7 @@
             </div>
         </div>
         <div>
-            <button class="full-width-primary-btn" :disabled="!isFilled" @click="$emit('nextStep')">확인</button>
+            <button class="full-width-primary-btn" :disabled="!isFilled" @click="nextStep">확인</button>
         </div>
     </div>
 </template>
@@ -77,10 +77,13 @@
 </style>
 
 <script setup lang="js">
-import { ref, computed } from 'vue';
+import { supabase } from '@/lib/supabase';
+import { ref, computed, defineEmits } from 'vue';
 
 const ideal = ref([]);
 const isFilled = computed(() => ideal.value.length > 0);
+
+const emit = defineEmits();
 
 const options = [
     { "label": "성격이 비슷한 사람", "value": "similar_personality" },
@@ -120,4 +123,25 @@ const options = [
     { "label": "논리적인 사람", "value": "logical_person" }
 ];
 
+const nextStep = async () => {
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession(); // 현재 세션 정보 가져오기
+
+    if (sessionError || !session || !session.user) {
+        console.error('세션 정보가 유효하지 않습니다.');
+        return; // 세션 정보가 없으면 함수 종료
+    }
+
+    const userId = session.user.id; // UID 가져오기
+
+    const { error } = await supabase
+        .from('users')
+        .update({ ideal_type: ideal.value }) // 생일 업데이트
+        .eq('id', userId); // UID로 조건 설정
+
+    if (error) {
+        console.error('데이터 업데이트 오류:', error);
+    } else {
+        emit('nextStep'); // 이벤트 호출
+    }
+}
 </script>

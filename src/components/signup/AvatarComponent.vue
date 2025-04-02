@@ -15,12 +15,59 @@
                 </ul>
             </div>
             <div class="input-area">
-                <textarea maxlength="500" v-model="bio" placeholder="SNS, 연락처 등 개인정보 기재 시 영구정지 처리될 수 있습니다!
-500자 내외로 입력해주세요"></textarea>
+                <input class="d-none" id="required-1" type="file" accept="image/*" @change="handleImageChange(1)" />
+                <label for="required-1" :style="{ backgroundImage: image1 ? `url(${image1})` : 'none' }">
+                    <p class="badge gradient-background">필수</p>
+                    <svg v-if="!image1" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960"
+                        width="36px" fill="#000000">
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                    </svg>
+                    <button v-if="image1" @click="removeImage(1)">사진 변경 / 제거</button>
+                </label>
+
+                <input class="d-none" id="required-2" type="file" accept="image/*" @change="handleImageChange(2)" />
+                <label for="required-2" :style="{ backgroundImage: image2 ? `url(${image2})` : 'none' }">
+                    <p class="badge gradient-background">필수</p>
+                    <svg v-if="!image2" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960"
+                        width="36px" fill="#000000">
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                    </svg>
+                    <button v-if="image2" @click="removeImage(2)">사진 변경 / 제거</button>
+                </label>
+
+                <input class="d-none" id="required-3" type="file" accept="image/*" @change="handleImageChange(3)" />
+                <label for="required-3" :style="{ backgroundImage: image3 ? `url(${image3})` : 'none' }">
+                    <p class="badge optional">선택</p>
+                    <svg v-if="!image3" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960"
+                        width="36px" fill="#000000">
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                    </svg>
+                    <button v-if="image3" @click="removeImage(3)">사진 변경 / 제거</button>
+                </label>
+
+                <input class="d-none" id="required-4" type="file" accept="image/*" @change="handleImageChange(4)" />
+                <label for="required-4" :style="{ backgroundImage: image4 ? `url(${image4})` : 'none' }">
+                    <p class="badge optional">선택</p>
+                    <svg v-if="!image4" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960"
+                        width="36px" fill="#000000">
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                    </svg>
+                    <button v-if="image4" @click="removeImage(4)">사진 변경 / 제거</button>
+                </label>
+
+                <input class="d-none" id="required-5" type="file" accept="image/*" @change="handleImageChange(5)" />
+                <label for="required-5" :style="{ backgroundImage: image5 ? `url(${image5})` : 'none' }">
+                    <p class="badge optional">선택</p>
+                    <svg v-if="!image5" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960"
+                        width="36px" fill="#000000">
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                    </svg>
+                    <button v-if="image5" @click="removeImage(5)">사진 변경 / 제거</button>
+                </label>
             </div>
         </div>
         <div>
-            <button class="full-width-primary-btn" :disabled="!isFilled" @click="$emit('nextStep')">확인</button>
+            <button class="full-width-primary-btn" :disabled="!isFilled" @click="nextStep">확인</button>
         </div>
     </div>
 </template>
@@ -58,36 +105,187 @@
 
         >.input-area {
             margin-top: 24px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 48px;
 
-            >textarea {
-                width: 100%;
-                height: 30dvh;
-                font-weight: 700;
+            >label {
+                aspect-ratio: 1 / 1;
                 padding: 16px;
-                font-size: 16px;
                 background-color: #efefef;
-                border: none;
                 border-radius: 8px;
+                cursor: pointer;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
 
-                &:focus {
-                    background-color: white;
+                >p {
+                    position: absolute;
+                    top: 16px;
+                    right: 16px;
+                    border-radius: 100rem;
+                    font-weight: 700;
+                    font-size: 14px;
+                    padding: 4px 12px;
                 }
 
+                >.optional {
+                    background-color: black;
+                    color: white;
+                }
+
+                >button {
+                    position: absolute;
+                    bottom: 16px;
+                    left: 16px;
+                    right: 16px;
+                    background-color: black;
+                    color: white;
+                    font-size: 12px;
+                    font-weight: 700;
+                    padding: 8px;
+                    border-radius: 8px;
+                    z-index: 10;
+                }
             }
         }
 
         >button {
             font-weight: 700;
             font-size: 16px;
+            margin-bottom: 24px;
         }
     }
 }
 </style>
 
 <script setup lang="js">
-import { ref, computed } from 'vue';
+import { supabase } from '@/lib/supabase';
+import { ref, computed, defineEmits } from 'vue';
 
-const bio = ref('');
-const isFilled = computed(() => bio.value.length > 0);
+const image1 = ref(null);
+const image2 = ref(null);
+const image3 = ref(null);
+const image4 = ref(null);
+const image5 = ref(null);
 
+const isFilled = computed(() => image1.value && image2.value);
+
+const emit = defineEmits();
+
+const handleImageChange = (index) => {
+    const input = document.getElementById(`required-${index}`);
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (index === 1) image1.value = e.target.result;
+            else if (index === 2) image2.value = e.target.result;
+            else if (index === 3) image3.value = e.target.result;
+            else if (index === 4) image4.value = e.target.result;
+            else if (index === 5) image5.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        console.error(`파일이 선택되지 않았습니다: ${index}`);
+    }
+};
+
+const removeImage = (index) => {
+    if (index === 1) {
+        image1.value = null;
+        document.getElementById(`required-1`).value = '';
+    } else if (index === 2) {
+        image2.value = null;
+        document.getElementById(`required-2`).value = '';
+    } else if (index === 3) {
+        image3.value = null;
+        document.getElementById(`required-3`).value = '';
+    } else if (index === 4) {
+        image4.value = null;
+        document.getElementById(`required-4`).value = '';
+    } else if (index === 5) {
+        image5.value = null;
+        document.getElementById(`required-5`).value = '';
+    }
+};
+
+const nextStep = async () => {
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+    if (sessionError || !session || !session.user) {
+        console.error('세션 정보가 유효하지 않습니다.', sessionError);
+        return;
+    }
+
+    const userId = session.user.id;
+
+    const avatarMain = [];
+    const avatarSub = [];
+
+    const images = [image1.value, image2.value, image3.value, image4.value, image5.value];
+    for (let i = 0; i < images.length; i++) {
+        if (images[i]) {
+            const input = document.getElementById(`required-${i + 1}`);
+            const file = input.files[0];
+
+            if (!file) {
+                console.error(`파일이 선택되지 않았습니다: ${i + 1}`);
+                continue;
+            }
+
+            const fileName = `user-${userId}/image-${i + 1}${file.name.substring(file.name.lastIndexOf('.'))}`;
+
+            const { error: deleteError } = await supabase.storage.from('users').remove([fileName]);
+            if (deleteError) {
+                console.error('기존 파일 삭제 오류:', deleteError);
+            }
+
+            const { error: uploadError } = await supabase.storage.from('users').upload(fileName, file);
+            if (uploadError) {
+                console.error('이미지 업로드 오류:', uploadError);
+                return;
+            }
+
+            const { data: urlData, error: urlError } = await supabase.storage.from('users').getPublicUrl(fileName);
+            console.log(urlData)
+            if (urlError) {
+                console.error('publicURL 가져오기 오류:', urlError);
+                return;
+            }
+
+            if (urlData) {
+                if (i < 2) {
+                    avatarMain.push(urlData.publicUrl);
+                } else {
+                    avatarSub.push(urlData.publicUrl);
+                }
+            } else {
+                console.error('publicURL이 null입니다:', fileName);
+            }
+        }
+    }
+
+    console.log('avatarMain:', avatarMain);
+    console.log('avatarSub:', avatarSub);
+
+    const { error } = await supabase
+        .from('users')
+        .update({
+            avatar_main: avatarMain,
+            avatar_sub: avatarSub
+        })
+        .eq('id', userId);
+
+    if (error) {
+        console.error('데이터 업데이트 오류:', error);
+    } else {
+        emit('nextStep');
+    }
+}
 </script>

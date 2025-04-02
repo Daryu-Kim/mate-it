@@ -12,7 +12,7 @@
 import MainHeader from '@/components/template/MainHeader.vue';
 import LoginDialog from '@/components/dialog/LoginDialog.vue';
 import { onMounted, ref } from 'vue';
-import { getCurrentSession } from '@/lib/supabase';
+import { checkUserData, getCurrentSession } from '@/lib/supabase';
 
 const isLoggedIn = ref(false);
 
@@ -20,6 +20,7 @@ onMounted(async () => {
   const session = await getCurrentSession();
   if (session) {
     isLoggedIn.value = false;
+    await checkUserData();
   } else {
     isLoggedIn.value = true;
   }

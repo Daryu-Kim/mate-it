@@ -5,11 +5,11 @@
                 <p>닉네임을 정해주세요!<br />당신을 표현할 멋진 이름! ✨</p>
             </div>
             <div class="input-area">
-                <input type="text" maxlength="10" v-model="nickname" placeholder="10자 내외로 입력해주세요" />
+                <input type="text" maxlength="10" v-model="nickname" placeholder="최소 2글자, 10자 내외로 입력해주세요" />
             </div>
         </div>
         <div>
-            <button class="full-width-primary-btn" :disabled="!isFilled" @click="$emit('nextStep')">확인</button>
+            <button class="full-width-primary-btn" :disabled="!isFilled" @click="nextStep">확인</button>
         </div>
     </div>
 </template>
@@ -61,9 +61,39 @@
 </style>
 
 <script setup lang="js">
-import { ref, computed } from 'vue';
+import { ref, computed, defineEmits } from 'vue';
+import { supabase } from '../../lib/supabase';
 
-const nickname = ref([]);
-const isFilled = computed(() => nickname.value.length > 0);
+const emit = defineEmits(); // 이벤트 정의
+
+const nickname = ref('');
+const isFilled = computed(() => nickname.value.length >= 2);
+
+const nextStep = async () => {
+    // Supabase 클라이언트 가져오기
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession(); // 현재 세션 정보 가져오기
+
+    if (sessionError || !session || !session.user) {
+        console.error('세션 정보가 유효하지 않습니다.');
+        return; // 세션 정보가 없으면 함수 종료
+    }
+
+    alert(session.user.id)
+
+    const userId = session.user.id; // UID 가져오기
+
+    const { error } = await supabase
+        .from('users')
+        .update({ username: nickname.value }) // 닉네임 업데이트
+        .eq('id', userId); // UID로 조건 설정
+
+    alert(error)
+
+    if (error) {
+        console.error('데이터 업데이트 오류:', error);
+    } else {
+        emit('nextStep'); // 이벤트 호출
+    }
+}
 
 </script>

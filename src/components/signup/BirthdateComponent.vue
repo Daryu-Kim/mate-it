@@ -9,7 +9,7 @@
             </div>
         </div>
         <div>
-            <button class="full-width-primary-btn" :disabled="!isFilled" @click="$emit('nextStep')">확인</button>
+            <button class="full-width-primary-btn" :disabled="!isFilled" @click="nextStep">확인</button>
         </div>
     </div>
 </template>
@@ -47,12 +47,15 @@
 </style>
 
 <script setup lang="js">
-import { ref, computed, watch } from 'vue';
+import { supabase } from '@/lib/supabase';
+import { ref, computed, watch, defineEmits } from 'vue';
 import ScrollPicker from 'vue3-scroll-picker';
 
 const currentYear = new Date().getFullYear();
 const startYear = currentYear - 39; // 39세
 const endYear = currentYear - 16; // 16세
+
+const emit = defineEmits(); // 이벤트 정의
 
 const selections = ref([]);
 const isFilled = computed(() => selections.value);
@@ -98,5 +101,31 @@ watch(selections, (newSelections) => {
         options.value[2] = dayOptions.value.length > 0 ? dayOptions.value : []; // 일 수 업데이트
     }
 });
+
+const nextStep = async () => {
+    // 날짜 형식으로 변환
+    const [year, month, day] = selections.value;
+    const birthdate = new Date(`${year}-${month}-${parseInt(day) + 1}`).toISOString(); // ISO 형식으로 변환
+
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession(); // 현재 세션 정보 가져오기
+
+    if (sessionError || !session || !session.user) {
+        console.error('세션 정보가 유효하지 않습니다.');
+        return; // 세션 정보가 없으면 함수 종료
+    }
+
+    const userId = session.user.id; // UID 가져오기
+
+    const { error } = await supabase
+        .from('users')
+        .update({ birthdate }) // 생일 업데이트
+        .eq('id', userId); // UID로 조건 설정
+
+    if (error) {
+        console.error('데이터 업데이트 오류:', error);
+    } else {
+        emit('nextStep'); // 이벤트 호출
+    }
+}
 
 </script>

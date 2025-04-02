@@ -170,10 +170,7 @@ const close = () => {
 };
 
 const loginWithSocial = async (provider) => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'kakao',
-  })
-  // const data = await loginWithSocialAccount(provider);
+  const data = await loginWithSocialAccount(provider);
   // if (data) {
   //   window.location.reload();
   // }
