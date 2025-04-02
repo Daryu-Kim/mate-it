@@ -218,7 +218,7 @@
                 </div>
 
                 <div class="tab-content">
-                    <div v-if="selectedTab === 'tab1'">
+                    <div class="update-area" v-if="selectedTab === 'tab1'">
                         <div>
                             <div class="title-area">
                                 <p class="title">제목</p>
@@ -235,7 +235,7 @@
                             <textarea type="text" v-model="textNotice" maxlength="100" rows="5"
                                 placeholder="청취자 입장 시 맨 처음 보이는 문구입니다."></textarea>
                         </div>
-                        <!-- <div>
+                        <div>
                             <div class="title-area">
                                 <p class="title">썸네일 업로드</p>
                             </div>
@@ -248,7 +248,7 @@
                                         d="M480-480ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h320v80H200v560h560v-320h80v320q0 33-23.5 56.5T760-120H200Zm40-160h480L570-480 450-320l-90-120-120 160Zm440-320v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Z" />
                                 </svg>
                             </label>
-                        </div> -->
+                        </div>
                         <div>
                             <div class="title-area">
                                 <p class="title">오디오 장비 설정</p>
@@ -331,8 +331,76 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="selectedTab === 'tab2'">TAB2</div>
-                    <div v-if="selectedTab === 'tab3'">TAB3</div>
+                    <div class="audience-area" v-if="selectedTab === 'tab2'">
+                        <div v-for="(item, index) in 10" :key="index">
+                            <div>
+                                <button class="image-area"></button>
+                                <p class="name">TEST</p>
+                                <p class="role gradient-background">DJ</p>
+                            </div>
+                            <div>
+                                <button>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960"
+                                        width="16px" fill="black">
+                                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                                    </svg>
+                                    <p>팔로우</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="call-area" v-if="selectedTab === 'tab3'">
+                        <div>
+                            <div class="title-area">
+                                <p>현재 라이브콜:</p>
+                                <p><span class="gradient-font">0</span>명</p>
+                            </div>
+                            <div class="content-area" v-for="(item, index) in 2" :key="index">
+                                <div>
+                                    <button class="image-area"></button>
+                                    <p class="name">TEST</p>
+                                    <p class="role gradient-background">DJ</p>
+                                </div>
+                                <div>
+                                    <button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960"
+                                            width="16px" fill="#000000">
+                                            <path
+                                                d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z" />
+                                        </svg>
+                                    </button>
+                                    <button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960"
+                                            width="16px" fill="#000000">
+                                            <path
+                                                d="M792-52 570-274q-89 72-193.5 113T162-120q-24 0-33-12t-9-30v-162q0-14 9-24.5t23-13.5l138-28q11-2 27.5 3t24.5 13l94 94q18-11 39-25t37-27L56-788l56-56 736 736-56 56ZM360-244l-66-66-94 20v88q41-3 81-14t79-28Zm322-144-56-56q15-17 30.5-39t24.5-41l-97-98q-8-8-11-22.5t-1-23.5l26-140q3-14 13.5-23t24.5-9h162q18 0 30 12t12 30q0 110-42 214.5T682-388Zm36-212q17-39 26-79t14-81h-88l-18 94 66 66Zm0 0ZM360-244Z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="title-area">
+                                <p>대기중인 라이브콜:</p>
+                                <p><span class="gradient-font">0</span>명</p>
+                            </div>
+                            <div class="content-area" v-for="(item, index) in 5" :key="index">
+                                <div>
+                                    <button class="image-area"></button>
+                                    <p class="name">TEST</p>
+                                    <p class="role gradient-background">DJ</p>
+                                </div>
+                                <div>
+                                    <button>
+                                        <p>수락</p>
+                                    </button>
+                                    <button>
+                                        <p>거절</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div v-if="selectedTab === 'tab4'">TAB4</div>
                 </div>
             </div>
@@ -362,8 +430,8 @@
         padding-bottom: 24px;
         max-width: 1280px;
         display: flex;
-        height: 100%;
         gap: 16px;
+        height: calc(100vh - 84px);
 
         >.broadcast-area {
             flex: 1;
@@ -672,12 +740,11 @@
                     border-radius: 100rem; // 스크롤바 바의 모서리를 둥글게 설정
                 }
 
-                >div {
+                >.update-area {
                     flex: 1;
                     display: flex;
                     flex-direction: column;
                     gap: 24px;
-                    overflow-y: auto;
                     height: auto;
 
                     >div {
@@ -822,6 +889,124 @@
                                     background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
                                     border-color: transparent;
                                     font-weight: 700;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                >.audience-area {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+
+                    >div {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 8px;
+
+                        >div {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+
+                            >.image-area {
+                                background-image: url('https://picsum.photos/300');
+                                width: 36px;
+                                height: 36px;
+                                border-radius: 50%;
+                            }
+
+                            >.name {
+                                font-weight: 500;
+                                font-size: 14px;
+                            }
+
+                            >.role {
+                                font-weight: 900;
+                                font-size: 10px;
+                                color: black;
+                                border-radius: 100rem;
+                                padding: 3px 9px;
+                            }
+
+                            >button {
+                                display: flex;
+                                align-items: center;
+                                border-radius: 100rem;
+                                background-color: #fff;
+                                padding: 4px 12px;
+
+                                >p {
+                                    font-weight: 700;
+                                    font-size: 12px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                >.call-area {
+                    >div {
+                        &:not(:last-child) {
+                            margin-bottom: 36px;
+                        }
+
+                        >.title-area {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+
+                            span {
+                                margin-right: 4px;
+                                font-weight: 700;
+                            }
+                        }
+
+                        >.content-area {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            gap: 8px;
+                            margin-top: 16px;
+
+                            >div {
+                                display: flex;
+                                align-items: center;
+                                gap: 8px;
+
+                                >.image-area {
+                                    background-image: url('https://picsum.photos/300');
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                }
+
+                                >.name {
+                                    font-weight: 500;
+                                    font-size: 14px;
+                                }
+
+                                >.role {
+                                    font-weight: 900;
+                                    font-size: 10px;
+                                    color: black;
+                                    border-radius: 100rem;
+                                    padding: 3px 9px;
+                                }
+
+                                >button {
+                                    display: flex;
+                                    align-items: center;
+                                    border-radius: 100rem;
+                                    background-color: #fff;
+                                    padding: 4px 12px;
+
+                                    >p {
+                                        font-weight: 700;
+                                        font-size: 12px;
+                                    }
                                 }
                             }
                         }
