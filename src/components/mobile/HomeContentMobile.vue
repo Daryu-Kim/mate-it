@@ -70,7 +70,7 @@
         >div {
             box-shadow: 2px 2px 4px rgba($color: #000000, $alpha: 0.35);
             border-radius: 8px;
-            aspect-ratio: 1 / 1.4;
+            aspect-ratio: 1 / 1.5;
             display: flex;
             flex-direction: column;
 
