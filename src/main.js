@@ -11,4 +11,3 @@ app.use(store)
 app.use(router)
 app.use(ScrollPicker)
 app.mount('#app')
-

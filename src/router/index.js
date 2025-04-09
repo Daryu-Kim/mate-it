@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LiveChannelView from '@/views/LiveChannelView.vue'
-import TodayView from '@/views/TodayView.vue'
 import SecretView from '@/views/SecretView.vue'
 import Broadcaster from '@/views/Broadcaster.vue'
 import Viewer from '@/views/Viewer.vue'
@@ -20,12 +19,7 @@ const routes = [
   {
     path: '/signup',
     name: 'signup',
-    component: SignupView
-  },
-  {
-    path: '/today',
-    name: 'today',
-    component: TodayView,
+    component: SignupView,
     meta: { requiresAuth: true }
   },
   {

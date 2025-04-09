@@ -21,6 +21,7 @@
 </style>
 
 <script setup lang="js">
+import AddressComponent from "@/components/signup/AddressComponent.vue";
 import AvatarComponent from "@/components/signup/AvatarComponent.vue";
 import BioComponent from "@/components/signup/BioComponent.vue";
 import BirthdateComponent from "@/components/signup/BirthdateComponent.vue";
@@ -52,27 +53,28 @@ const stepComponents = {
     1: NicknameComponent,
     2: BirthdateComponent,
     3: GenderComponent,
-    4: HeightComponent,
-    5: BodyTypeComponent,
-    6: EducationComponent,
-    7: JobComponent,
-    8: ReligionComponent,
-    9: DrinkingComponent,
-    10: SmokingComponent,
-    11: MbtiComponent,
-    12: PersonalityComponent,
-    13: InterestsComponent,
-    14: FavMusicComponent,
-    15: FavMovieComponent,
-    16: IdealTypeComponent,
-    17: LookingForComponent,
-    18: BioComponent,
-    19: AvatarComponent,
-    20: WaitComponent
+    4: AddressComponent,
+    5: HeightComponent,
+    6: BodyTypeComponent,
+    7: EducationComponent,
+    8: JobComponent,
+    9: ReligionComponent,
+    10: DrinkingComponent,
+    11: SmokingComponent,
+    12: MbtiComponent,
+    13: PersonalityComponent,
+    14: InterestsComponent,
+    15: FavMusicComponent,
+    16: FavMovieComponent,
+    17: IdealTypeComponent,
+    18: LookingForComponent,
+    19: BioComponent,
+    20: AvatarComponent,
+    21: WaitComponent
 };
 
 const step = ref(Number(route.query.step) || 1);
-const totalSteps = 20;
+const totalSteps = 21;
 
 const progress = computed(() => {
     return (step.value / totalSteps) * 100;

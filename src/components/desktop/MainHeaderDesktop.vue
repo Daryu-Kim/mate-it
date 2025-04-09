@@ -3,7 +3,6 @@
         <div class="logo-area">
             <router-link to="/" class="logo-font logo">MATEIT</router-link>
             <div class="menu-area">
-                <router-link to="/today">오늘의 인연</router-link>
                 <router-link to="">친구 탐색</router-link>
                 <router-link to="">모임 찾기</router-link>
                 <router-link to="/live-channel">라이브 채널</router-link>
@@ -19,14 +18,6 @@
                 </svg>
                 <p>상점</p>
             </button>
-            <router-link to="">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                    fill="#434343">
-                    <path
-                        d="M151.87-191.87v-91H229v-271.87q0-86.11 51.32-153.6 51.31-67.49 134.18-88.2v-26.09q0-27.29 19.1-46.4 19.11-19.1 46.4-19.1t46.4 19.1q19.1 19.11 19.1 46.4v26.09q83.11 20.71 134.3 88.08Q731-641.09 731-554.74v271.87h77.13v91H151.87ZM480-498.8Zm.24 429.56q-34.18 0-58.53-24.27-24.34-24.27-24.34-58.36h165.5q0 34.2-24.27 58.41-24.28 24.22-58.36 24.22ZM320-282.87h320v-271.87q0-66-47-113t-113-47q-66 0-113 47t-47 113v271.87Z" />
-                </svg>
-                <p>알림</p>
-            </router-link>
             <router-link to="">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                     fill="#434343">
