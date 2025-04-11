@@ -1,11 +1,12 @@
 <template>
-    <div class="nickname-signup">
+    <div class="phone-signup">
         <div>
             <div class="title-area">
-                <p>닉네임을 정해주세요!<br />당신을 표현할 멋진 이름! ✨</p>
+                <p>매칭 알림을 보내드릴게요!<br />휴대폰 번호를 입력해주세요!📱</p>
             </div>
             <div class="input-area">
-                <input type="text" maxlength="10" v-model="nickname" placeholder="최소 2글자, 10자 내외로 입력해주세요" />
+                <input type="text" maxlength="11" v-model="phone" @keypress="allowOnlyNumbers"
+                    placeholder="ex) 01012345678" inputmode="numeric" pattern="[0-9]*">
             </div>
         </div>
         <div>
@@ -15,7 +16,7 @@
 </template>
 
 <style lang="scss" scoped>
-.nickname-signup {
+.phone-signup {
     padding: 36px 24px;
     padding-top: 64px;
     height: calc(100dvh - 16px);
@@ -66,8 +67,15 @@ import { supabase } from '../../lib/supabase';
 
 const emit = defineEmits(); // 이벤트 정의
 
-const nickname = ref('');
-const isFilled = computed(() => nickname.value.length >= 2);
+const phone = ref(''); // formattedPhone을 ref로 변경
+const isFilled = computed(() => /^010\d{8}$/.test(phone.value)); // 형식 검증
+
+const allowOnlyNumbers = (event) => {
+    const char = String.fromCharCode(event.which);
+    if (!/[0-9]/.test(char)) {
+        event.preventDefault(); // 숫자가 아닌 경우 입력 방지
+    }
+}
 
 const nextStep = async () => {
     // Supabase 클라이언트 가져오기
@@ -82,7 +90,7 @@ const nextStep = async () => {
 
     const { error } = await supabase
         .from('users')
-        .update({ username: nickname.value }) // 닉네임 업데이트
+        .update({ phone: phone.value }) // 전화번호 업데이트
         .eq('id', userId); // UID로 조건 설정
 
     if (error) {

@@ -34,6 +34,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 100;
     box-shadow: 0 0 8px rgba($color: #000000, $alpha: 0.35);
 
     >div.logo-area {

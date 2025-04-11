@@ -39,6 +39,7 @@ import LookingForComponent from "@/components/signup/LookingForComponent.vue";
 import MbtiComponent from "@/components/signup/MbtiComponent.vue";
 import NicknameComponent from "@/components/signup/NicknameComponent.vue";
 import PersonalityComponent from "@/components/signup/PersonalityComponent.vue";
+import PhoneComponent from "@/components/signup/PhoneComponent.vue";
 import ReligionComponent from "@/components/signup/ReligionComponent.vue";
 import SmokingComponent from "@/components/signup/SmokingComponent.vue";
 import WaitComponent from "@/components/signup/WaitComponent.vue";
@@ -54,27 +55,28 @@ const stepComponents = {
     2: BirthdateComponent,
     3: GenderComponent,
     4: AddressComponent,
-    5: HeightComponent,
-    6: BodyTypeComponent,
-    7: EducationComponent,
-    8: JobComponent,
-    9: ReligionComponent,
-    10: DrinkingComponent,
-    11: SmokingComponent,
-    12: MbtiComponent,
-    13: PersonalityComponent,
-    14: InterestsComponent,
-    15: FavMusicComponent,
-    16: FavMovieComponent,
-    17: IdealTypeComponent,
-    18: LookingForComponent,
-    19: BioComponent,
-    20: AvatarComponent,
-    21: WaitComponent
+    5: PhoneComponent,
+    6: HeightComponent,
+    7: BodyTypeComponent,
+    8: EducationComponent,
+    9: JobComponent,
+    10: ReligionComponent,
+    11: DrinkingComponent,
+    12: SmokingComponent,
+    13: MbtiComponent,
+    14: PersonalityComponent,
+    15: InterestsComponent,
+    16: FavMusicComponent,
+    17: FavMovieComponent,
+    18: IdealTypeComponent,
+    19: LookingForComponent,
+    20: BioComponent,
+    21: AvatarComponent,
+    22: WaitComponent
 };
 
 const step = ref(Number(route.query.step) || 1);
-const totalSteps = 21;
+const totalSteps = 22;
 
 const progress = computed(() => {
     return (step.value / totalSteps) * 100;

@@ -3,11 +3,11 @@
         <div class="title-area">
             <div class="text-area">
                 <p class="title">오늘의 인연</p>
-                <p class="desc">오늘의 인연이 될 10명의 친구들을 만나보세요!</p>
+                <p class="desc">매일 오전 9시에 새로운 인연 12명을 소개시켜 드립니다!</p>
             </div>
         </div>
         <div class="card-area">
-            <div v-for="(item, index) in data" :key="index">
+            <router-link :to="`/profile?id=${item.id}`" v-for="(item, index) in data" :key="index">
                 <div class="img"></div>
                 <div class="desc-area">
                     <p class="gradient-font desc">
@@ -18,7 +18,7 @@
                     <p class="name">{{ item.username }}</p>
                     <p class="age">{{ calculateAge(item.birthdate) }} 세</p>
                 </div>
-            </div>
+            </router-link>
         </div>
     </div>
 </template>
@@ -67,12 +67,13 @@
         row-gap: 24px;
         column-gap: 16px;
 
-        >div {
+        >a {
             box-shadow: 2px 2px 4px rgba($color: #000000, $alpha: 0.35);
             border-radius: 8px;
             aspect-ratio: 1 / 1.5;
             display: flex;
             flex-direction: column;
+            text-decoration: none;
 
             >.img {
                 border-radius: 8px 8px 0 0;
@@ -99,11 +100,13 @@
                     font-weight: 700;
                     font-size: 16px;
                     margin-top: 4px;
+                    color: #000000;
                 }
 
                 >.age {
                     font-weight: 500;
                     font-size: 14px;
+                    color: grey;
                 }
             }
         }

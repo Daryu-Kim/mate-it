@@ -253,7 +253,6 @@ const nextStep = async () => {
             }
 
             const { data: urlData, error: urlError } = await supabase.storage.from('users').getPublicUrl(fileName);
-            console.log(urlData)
             if (urlError) {
                 console.error('publicURL 가져오기 오류:', urlError);
                 return;
@@ -270,9 +269,6 @@ const nextStep = async () => {
             }
         }
     }
-
-    console.log('avatarMain:', avatarMain);
-    console.log('avatarSub:', avatarSub);
 
     const { error } = await supabase
         .from('users')

@@ -104,7 +104,6 @@ const fetchUserAvatars = async () => {
         if (images.value.length > 0) {
             currentImage.value = images.value[currentImageIndex.value];
         }
-        console.log(data)
     } catch (error) {
         console.error('사용자 아바타를 불러오는 중 오류 발생:', error);
     }

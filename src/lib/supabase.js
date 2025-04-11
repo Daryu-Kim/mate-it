@@ -16,7 +16,7 @@ export async function getCurrentSession() {
 
 // 필수 입력 필드 목록
 const requiredFields = [
-    'username', 'birthdate', 'gender', 'address', 'height', 'body_type',
+    'username', 'birthdate', 'gender', 'address', 'phone', 'height', 'body_type',
     'education', 'job', 'religion', 'drinking', 'smoking', 'mbti',
     'personality', 'interests', 'fav_music', 'fav_movie',
     'ideal_type', 'looking_for', 'bio', 'avatar_main', 'is_verified'
@@ -102,6 +102,13 @@ export async function createMatchCards() {
             .single();
         if (userError) throw userError;
 
+        const { data: existingMatches, error: existingError } = await supabase
+            .from('user_matches')
+            .select('match_id')
+            .eq('user_id', currentUid)
+
+        const existingMatchIds = existingMatches.map(match => match.match_id);
+
         const currentUserAge = calculateAge(currentUser.birthdate);
         const minAge = currentUserAge - 5;
         const maxAge = currentUserAge + 5;
@@ -116,7 +123,9 @@ export async function createMatchCards() {
 
         if (filteredError) throw filteredError;
 
-        const ageFilteredUsers = filteredUsers.filter(user => {
+        const eligibleUsers = filteredUsers.filter(user => !existingMatchIds.includes(user.id));
+
+        const ageFilteredUsers = eligibleUsers.filter(user => {
             const userAge = calculateAge(user.birthdate);
             return userAge >= minAge && userAge <= maxAge;
         });
@@ -125,7 +134,6 @@ export async function createMatchCards() {
         const locationFilteredUsers = ageFilteredUsers.map(user => {
             const userAddress = user.address;
             let location_score = 0;
-            console.log(currentAddress, userAddress)
 
             // 첫 번째 주소(시/도)가 같은 경우
             if (currentAddress[0] === userAddress[0]) {
