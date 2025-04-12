@@ -6,7 +6,8 @@
                     <p class="title">{{ boardRefData.title }}</p>
                     <button
                         v-if="boardRefData.user_id === currentUserId"
-                        @click="openContextMenu"
+                        @click="openSelectContextMenu"
+                        class="post"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +207,10 @@
                                         <p>
                                             {{ formatDate(item.created_at) }}
                                         </p>
-                                        <button>
+                                        <button
+                                            class="comment"
+                                            @click="openSelectContextMenu"
+                                        >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 height="16px"
@@ -349,7 +353,10 @@
                                                     )
                                                 }}
                                             </p>
-                                            <button>
+                                            <button
+                                                class="comment"
+                                                @click="openSelectContextMenu"
+                                            >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     height="16px"
@@ -414,8 +421,34 @@
                 </div>
             </div>
         </div>
-        <vue-bottom-sheet v-model="contextMenuSheet">
-            <p>asdfsfa</p>
+        <vue-bottom-sheet
+            v-model="selectContextMenu"
+            class="select-context-menu"
+            :canSwipe="false"
+        >
+            <button @click="openCheckContextMenu">
+                {{ selectedProps }} 삭제
+            </button>
+        </vue-bottom-sheet>
+        <vue-bottom-sheet
+            v-model="checkContextMenu"
+            class="check-context-menu"
+            :canSwipe="false"
+        >
+            <div class="title-area">
+                <p class="title">경고</p>
+            </div>
+            <hr />
+            <div class="content-area">
+                <p>
+                    정말로 작성하신 {{ selectedProps }}을 삭제하시겠습니까?<br />포함되어
+                    있던 모든 항목들이 삭제됩니다.
+                </p>
+                <button class="anyway">삭제</button>
+                <button class="cancel" @click="closeCheckContextMenu">
+                    취소
+                </button>
+            </div>
         </vue-bottom-sheet>
     </div>
 </template>
@@ -608,6 +641,61 @@
         }
     }
 }
+
+.select-context-menu {
+    button {
+        font-weight: 700;
+        width: 100%;
+        color: red;
+        font-size: 16px;
+        padding: 16px;
+    }
+}
+
+.check-context-menu {
+    .title-area {
+        text-align: center;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 8px 0;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #efefef;
+    }
+
+    .content-area {
+        margin-top: 24px;
+        padding: 0 16px 16px 16px;
+
+        > p {
+            text-align: center;
+            font-weight: 500;
+            word-break: keep-all;
+            font-size: 12px;
+        }
+
+        > button {
+            border-radius: 8px;
+            width: 100%;
+            height: 36px;
+            font-weight: 700;
+        }
+
+        > .anyway {
+            background-color: red;
+            color: white;
+            margin-top: 24px;
+        }
+
+        > .cancel {
+            background-color: white;
+            border: 1px solid #ececec;
+            margin-top: 8px;
+        }
+    }
+}
 </style>
 
 <script setup lang="js">
@@ -625,15 +713,34 @@ const userGender = ref('');
 const likesCount = ref(0);
 const isLiked = ref(true);
 const currentUserId = ref('');
-const contextMenuSheet = ref(false);
+const selectContextMenu = ref(false);
+const checkContextMenu = ref(false);
+const selectedProps = ref('');
 
 const onClickReplyBtn = (commentId, userId) => {
     emit('reply', commentId, userId);
 }
 
-const openContextMenu = () => {
-    contextMenuSheet.value = true; // open 메서드 호출
+const openSelectContextMenu = (event) => {
+    const button = event.currentTarget;
+    if (button.classList.contains('post')) {
+        console.log("post")
+        selectedProps.value = '게시물';
+    } else if (button.classList.contains('comment')) {
+        console.log('comment')
+        selectedProps.value = '댓글';
+    }
+    console.log(selectedProps.value)
+    selectContextMenu.value = true; // open 메서드 호출
 };
+
+const openCheckContextMenu = () => {
+    checkContextMenu.value = true; // open 메서드 호출
+};
+
+const closeCheckContextMenu = () => {
+    checkContextMenu.value = false;
+}
 
 const fetchData = async () => {
     try {
