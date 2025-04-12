@@ -7,9 +7,9 @@
         <button>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                height="24px"
+                height="28px"
                 viewBox="0 -960 960 960"
-                width="24px"
+                width="28px"
                 fill="#000000"
             >
                 <defs>
@@ -45,7 +45,7 @@
     bottom: 48px;
     background-color: #efefef;
     width: 100%;
-    height: 48px;
+    height: 56px;
     box-shadow: 0 -4px 4px rgba($color: #000000, $alpha: 0.175);
     display: flex;
     align-items: center;
@@ -60,10 +60,7 @@
         outline: none;
         border-radius: 8px;
         font-weight: 500;
-        font-size: 12px;
-    }
-
-    > button {
+        font-size: 14px;
     }
 }
 </style>
