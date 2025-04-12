@@ -188,7 +188,7 @@ const loginWithSocial = async (provider) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  z-index: 101;
 
   >.dialog-content {
     background: white;
