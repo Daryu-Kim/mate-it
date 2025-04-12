@@ -18,6 +18,7 @@
     "stream-browserify": "^3.0.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vue3-bottom-sheet": "^0.1.12",
     "vue3-scroll-picker": "^0.1.15",
     "vuex": "^4.0.0",
     "ws": "^8.18.1"

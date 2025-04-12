@@ -2,7 +2,25 @@
     <div class="content">
         <div class="title-area">
             <div class="text-area">
-                <p class="title">{{ boardRefData.title }}</p>
+                <div>
+                    <p class="title">{{ boardRefData.title }}</p>
+                    <button
+                        v-if="boardRefData.user_id === currentUserId"
+                        @click="openContextMenu"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="16px"
+                            viewBox="0 -960 960 960"
+                            width="16px"
+                            fill="#000000"
+                        >
+                            <path
+                                d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"
+                            />
+                        </svg>
+                    </button>
+                </div>
                 <div>
                     <div>
                         <div class="male" v-if="userGender === 'male'">
@@ -135,13 +153,13 @@
                 </button>
             </div>
         </div>
-        <div class="comment-area" v-if="commentRefData.length > 0">
+        <div class="comment-area" v-if="comments.length > 0">
             <div class="title-area">
                 <p>총 댓글 수:</p>
-                <p>{{ formatNumber(commentRefData.length) }} 개</p>
+                <p>{{ formatNumber(comments.length) }} 개</p>
             </div>
             <div class="content-area">
-                <div v-for="(item, index) in commentRefData" :key="index">
+                <div v-for="(item, index) in comments" :key="index">
                     <div v-if="item.parent_comment_id === null">
                         <div class="parent-comment-area">
                             <div class="gender-area">
@@ -207,7 +225,17 @@
                                     <p>{{ item.content }}</p>
                                 </div>
                                 <div class="bottom-area">
-                                    <button class="reply-btn">대댓글</button>
+                                    <button
+                                        class="reply-btn"
+                                        @click="
+                                            onClickReplyBtn(
+                                                item.comment_id,
+                                                item.user_id
+                                            )
+                                        "
+                                    >
+                                        대댓글
+                                    </button>
                                     <button class="fav-btn">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -251,9 +279,7 @@
                         </div>
                         <div
                             class="child-comment-area"
-                            v-for="(
-                                childItem, childIndex
-                            ) in commentRefData.filter(
+                            v-for="(childItem, childIndex) in comments.filter(
                                 (child) =>
                                     child.parent_comment_id === item.comment_id
                             )"
@@ -388,6 +414,9 @@
                 </div>
             </div>
         </div>
+        <vue-bottom-sheet v-model="contextMenuSheet">
+            <p>asdfsfa</p>
+        </vue-bottom-sheet>
     </div>
 </template>
 
@@ -396,7 +425,7 @@
     margin: 0 auto;
     margin-top: 60px;
     padding: 0 36px;
-    padding-bottom: 64px;
+    padding-bottom: 96px;
     position: relative;
 
     > .title-area {
@@ -409,18 +438,18 @@
         > .text-area {
             width: 100%;
 
-            > p.title {
-                font-size: 24px;
-                font-weight: 900;
-                word-break: keep-all;
-            }
-
             > div {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 margin-top: 8px;
                 width: 100%;
+
+                > p.title {
+                    font-size: 24px;
+                    font-weight: 900;
+                    word-break: keep-all;
+                }
 
                 > div {
                     display: flex;
@@ -493,11 +522,11 @@
 
         > .content-area {
             margin-top: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
 
             > div {
+                &:not(:first-child) {
+                    margin-top: 16px;
+                }
                 > div {
                     background-color: #efefef;
                     border-radius: 8px;
@@ -583,16 +612,28 @@
 
 <script setup lang="js">
 import { supabase } from '@/lib/supabase';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, defineEmits, defineProps } from 'vue';
 import { useRoute } from "vue-router";
+import { VueBottomSheet } from 'vue3-bottom-sheet';
 
 const route = useRoute();
+const emit = defineEmits();
+const props = defineProps(['comments']);
 
 const boardRefData = ref({});
 const userGender = ref('');
 const likesCount = ref(0);
 const isLiked = ref(true);
-const commentRefData = ref([]);
+const currentUserId = ref('');
+const contextMenuSheet = ref(false);
+
+const onClickReplyBtn = (commentId, userId) => {
+    emit('reply', commentId, userId);
+}
+
+const openContextMenu = () => {
+    contextMenuSheet.value = true; // open 메서드 호출
+};
 
 const fetchData = async () => {
     try {
@@ -616,8 +657,6 @@ const fetchData = async () => {
             .eq('post_id', route.query.id);
         if (likeError) throw likeError;
 
-        commentRefData.value = await fetchCommentsWithGender(route.query.id);
-
         const userSession = (await supabase.auth.getSession()).data.session.user;
         const userId = userSession ? userSession.id : null;
 
@@ -627,8 +666,7 @@ const fetchData = async () => {
         userGender.value = userData.gender;
         likesCount.value = likesCountValue;
         isLiked.value = likeData.some(like => like.user_id === userId);
-
-        console.log(commentRefData.value)
+        currentUserId.value = userId;
     } catch (error) {
         console.error("게시물 불러오기 실패: ", error);
     }
@@ -694,31 +732,6 @@ const onClickLikeBtn = async () => {
         console.error("좋아요 누르기 실패: ", error);
     }
 }
-
-const fetchCommentsWithGender = async (postId) => {
-    const { data: comments, error: commentError } = await supabase
-        .from('secret_board_comments')
-        .select('*')
-        .eq('post_id', postId);
-    if (commentError) throw commentError;
-
-    // 각 댓글의 user_id를 통해 성별 정보를 가져옴
-    const commentsWithGender = await Promise.all(comments.map(async (comment) => {
-        const { data: userData, error: userError } = await supabase
-            .from('users')
-            .select('gender')
-            .eq('id', comment.user_id)
-            .single();
-        if (userError) throw userError;
-
-        return {
-            ...comment,
-            gender: userData.gender // 성별 정보를 추가
-        };
-    }));
-
-    return commentsWithGender;
-};
 
 const formatCategory = (filter) => {
     switch (filter) {

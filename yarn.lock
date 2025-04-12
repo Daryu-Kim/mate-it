@@ -3703,6 +3703,11 @@ gzip-size@^6.0.0:
   dependencies:
     duplexer "^0.1.2"
 
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+  integrity sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==
+
 handle-thing@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/handle-thing/-/handle-thing-2.0.1.tgz"
@@ -6646,6 +6651,13 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
+
+vue3-bottom-sheet@^0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/vue3-bottom-sheet/-/vue3-bottom-sheet-0.1.12.tgz#1d2676cf2f780434d3c0b809589feb9ba921060c"
+  integrity sha512-SGoK7SFUBf4b6UBUKFYhDc2YzgvKx+Emqv4KnjEtyZeXN6ZIna1ZnwnQcRli5sF5lx4PVzAym4KpvLRrHJnydQ==
+  dependencies:
+    hammerjs "^2.0.8"
 
 vue3-scroll-picker@^0.1.15:
   version "0.1.15"
