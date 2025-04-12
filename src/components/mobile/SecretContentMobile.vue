@@ -7,19 +7,33 @@
             </div>
         </div>
         <div class="filter-area">
-            <button class="active">전체</button>
-            <button>HOT</button>
-            <button>M</button>
-            <button>포토</button>
-            <button>일상</button>
-            <button>찾아요</button>
-            <button>고민</button>
-            <button>셀소</button>
-            <button>질문</button>
+            <button :class="{ active: activeFilter === '' }" @click="onClickFilterBtn('')">전체</button>
+            <button :class="{ active: activeFilter === 'CONCERNS' }" @click="onClickFilterBtn('CONCERNS')">고민</button>
+            <button :class="{ active: activeFilter === 'QUESTIONS' }" @click="onClickFilterBtn('QUESTIONS')">질문</button>
+            <button :class="{ active: activeFilter === 'LOOKING_FOR' }"
+                @click="onClickFilterBtn('LOOKING_FOR')">찾아요</button>
+            <button :class="{ active: activeFilter === 'ADVICE' }" @click="onClickFilterBtn('ADVICE')">조언</button>
+            <button :class="{ active: activeFilter === 'STORIES' }" @click="onClickFilterBtn('STORIES')">이야기</button>
+            <button :class="{ active: activeFilter === 'COMMUNICATION' }"
+                @click="onClickFilterBtn('COMMUNICATION')">소통</button>
+            <button :class="{ active: activeFilter === 'EMOTIONS' }" @click="onClickFilterBtn('EMOTIONS')">감정</button>
+            <button :class="{ active: activeFilter === 'HOBBIES' }" @click="onClickFilterBtn('HOBBIES')">취미</button>
+            <button :class="{ active: activeFilter === 'RELATIONSHIPS' }"
+                @click="onClickFilterBtn('RELATIONSHIPS')">연애</button>
+            <button :class="{ active: activeFilter === 'DAILY_LIFE' }"
+                @click="onClickFilterBtn('DAILY_LIFE')">일상</button>
+            <button :class="{ active: activeFilter === 'INFORMATION' }"
+                @click="onClickFilterBtn('INFORMATION')">정보</button>
+            <button :class="{ active: activeFilter === 'RECOMMENDATIONS' }"
+                @click="onClickFilterBtn('RECOMMENDATIONS')">추천</button>
+            <button :class="{ active: activeFilter === 'EVENTS' }" @click="onClickFilterBtn('EVENTS')">이벤트</button>
+            <button :class="{ active: activeFilter === 'SELF_IMPROVEMENT' }"
+                @click="onClickFilterBtn('SELF_IMPROVEMENT')">자기계발</button>
         </div>
         <div class="notice-area"></div>
         <div class="card-area">
-            <button class="card" v-for="(item, index) in data" :key="index">
+            <router-link :to="`/secret-detail?id=${item.post_id}`" class="card" v-for="(item, index) in data"
+                :key="index">
                 <div class="img-area">
                     <div>
                         <div>{{ item.content }}</div>
@@ -52,7 +66,7 @@
                         <p>{{ formatTime(item.created_at) }}</p>
                     </div>
                 </div>
-            </button>
+            </router-link>
         </div>
 
         <router-link to="" class="floating-btn">
@@ -128,6 +142,7 @@
             position: relative;
             border-radius: 8px;
             box-shadow: 0 0 0 2px transparent;
+            text-decoration: none;
 
             >.img-area {
                 height: calc(100% - 32px);
@@ -166,11 +181,11 @@
                 justify-content: space-between;
                 z-index: 1;
                 position: absolute;
+                font-weight: 700;
                 bottom: 0;
                 height: 32px;
                 width: 100%;
                 padding: 8px 16px;
-                // background-color: rgba($color: #000000, $alpha: 0.75);
                 border-radius: 0 0 8px 8px;
 
                 >div {
@@ -219,6 +234,7 @@ import { supabase } from '@/lib/supabase';
 import { onMounted, ref } from 'vue';
 
 const data = ref([]);
+const activeFilter = ref('');
 
 const fetchSecrets = async (filter) => {
     try {
@@ -289,6 +305,11 @@ const formatNumber = (number) => {
         return (number / 1000).toFixed(1) + 'K'; // 1K 단위
     }
     return number; // 1000 미만은 그대로 반환
+}
+
+const onClickFilterBtn = (filter) => {
+    activeFilter.value = filter;
+    fetchSecrets(filter);
 }
 
 onMounted(() => {

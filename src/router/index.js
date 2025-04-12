@@ -9,6 +9,7 @@ import ReadyAudioBroadcast from '@/views/ReadyAudioBroadcast.vue'
 import { getCurrentSession } from '@/lib/supabase'
 import NotFoundView from '@/views/NotFoundView.vue'
 import SignupView from '@/views/SignupView.vue'
+import SecretDetailView from '@/views/SecretDetailView.vue'
 
 const routes = [
   {
@@ -32,6 +33,12 @@ const routes = [
     path: '/secret',
     name: 'secret',
     component: SecretView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/secret-detail',
+    name: 'secret-detail',
+    component: SecretDetailView,
     meta: { requiresAuth: true }
   },
   {
