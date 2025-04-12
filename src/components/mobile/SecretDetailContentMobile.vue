@@ -80,7 +80,7 @@
                     </div>
                     <div>
                         <p>
-                            {{ boardRefData.category }} ·
+                            {{ formatCategory(boardRefData.category) }} ·
                             {{ formatDate(boardRefData.created_at) }}
                         </p>
                     </div>
@@ -499,7 +499,7 @@
 
             > div {
                 > div {
-                    background-color: #fafafa;
+                    background-color: #efefef;
                     border-radius: 8px;
                     padding: 8px;
 
@@ -719,6 +719,41 @@ const fetchCommentsWithGender = async (postId) => {
 
     return commentsWithGender;
 };
+
+const formatCategory = (filter) => {
+    switch (filter) {
+        case "CONCERNS":
+            return "고민";
+        case "QUESTIONS":
+            return "질문";
+        case "LOOKING_FOR":
+            return "찾아요";
+        case "ADVICE":
+            return "조언";
+        case "STORIES":
+            return "이야기";
+        case "COMMUNICATION":
+            return "소통";
+        case "EMOTIONS":
+            return "감정";
+        case "HOBBIES":
+            return "취미";
+        case "RELATIONSHIPS":
+            return "연애";
+        case "DAILY_LIFE":
+            return "일상";
+        case "INFORMATION":
+            return "정보";
+        case "RECOMMENDATIONS":
+            return "추천";
+        case "EVENTS":
+            return "이벤트";
+        case "SELF_IMPROVEMENT":
+            return "자기계발";
+        default:
+            return "알 수 없음";
+    }
+}
 
 onMounted(() => {
     fetchData();

@@ -1,6 +1,7 @@
 <template>
     <div class="content">
         <SecretDetailContentMobile class="mobile" />
+        <SecretDetailSendMobile class="mobile" />
     </div>
 </template>
 
@@ -17,7 +18,6 @@
 }
 
 @media (max-width: 767px) {
-
     .tablet,
     .desktop {
         display: none;
@@ -26,7 +26,6 @@
 
 /* 태블릿 화면: 768~1024px */
 @media (min-width: 768px) and (max-width: 1023px) {
-
     .mobile,
     .desktop {
         display: none;
@@ -35,7 +34,6 @@
 
 /* 데스크탑 화면: 1025px 이상 */
 @media (min-width: 1024px) {
-
     .mobile,
     .tablet {
         display: none;
@@ -44,6 +42,6 @@
 </style>
 
 <script setup>
-import SecretDetailContentMobile from '../mobile/SecretDetailContentMobile.vue';
-
+import SecretDetailContentMobile from "../mobile/SecretDetailContentMobile.vue";
+import SecretDetailSendMobile from "../mobile/SecretDetailSendMobile.vue";
 </script>
