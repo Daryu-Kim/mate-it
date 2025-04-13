@@ -63,7 +63,15 @@
                                 )
                             }}
                         </p>
-                        <button v-if="boardRefData.user_id !== currentUserId">
+                        <button
+                            v-if="boardRefData.user_id !== currentUserId"
+                            :value="
+                                JSON.stringify({
+                                    user_id: boardRefData.user_id,
+                                })
+                            "
+                            @click="openFavContextMenu"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 height="18px"
