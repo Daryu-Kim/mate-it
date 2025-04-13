@@ -4,6 +4,7 @@
             class="mobile"
             @reply="setReplyCommentId"
             :comments="comments"
+            @reloadComment="fetchCommentsWithGender"
         />
         <SecretDetailSendMobile
             class="mobile"
@@ -63,7 +64,7 @@ const route = useRoute();
 const setReplyCommentId = (commentId, userId) => {
     replyCommentId.value = {
         comment_id: commentId,
-        user_id: userId
+        user_id: userId,
     };
 };
 

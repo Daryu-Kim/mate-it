@@ -8,6 +8,11 @@
                         v-if="boardRefData.user_id === currentUserId"
                         @click="openSelectContextMenu"
                         class="post"
+                        :value="
+                            JSON.stringify({
+                                post_id: boardRefData.post_id,
+                            })
+                        "
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +63,7 @@
                                 )
                             }}
                         </p>
-                        <button>
+                        <button v-if="boardRefData.user_id !== currentUserId">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 height="18px"
@@ -210,6 +215,12 @@
                                         <button
                                             class="comment"
                                             @click="openSelectContextMenu"
+                                            :value="
+                                                JSON.stringify({
+                                                    comment_id: item.comment_id,
+                                                    user_id: item.user_id,
+                                                })
+                                            "
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -240,7 +251,16 @@
                                     >
                                         대댓글
                                     </button>
-                                    <button class="fav-btn">
+                                    <button
+                                        class="fav-btn"
+                                        v-if="item.user_id !== currentUserId"
+                                        :value="
+                                            JSON.stringify({
+                                                user_id: item.user_id,
+                                            })
+                                        "
+                                        @click="openFavContextMenu"
+                                    >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             height="18px"
@@ -356,6 +376,14 @@
                                             <button
                                                 class="comment"
                                                 @click="openSelectContextMenu"
+                                                :value="
+                                                    JSON.stringify({
+                                                        comment_id:
+                                                            childItem.comment_id,
+                                                        user_id:
+                                                            childItem.user_id,
+                                                    })
+                                                "
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -375,7 +403,19 @@
                                         <p>{{ childItem.content }}</p>
                                     </div>
                                     <div class="bottom-area">
-                                        <button class="fav-btn">
+                                        <button
+                                            class="fav-btn"
+                                            v-if="
+                                                childItem.user_id !==
+                                                currentUserId
+                                            "
+                                            :value="
+                                                JSON.stringify({
+                                                    user_id: childItem.user_id,
+                                                })
+                                            "
+                                            @click="openFavContextMenu"
+                                        >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 height="18px"
@@ -424,28 +464,63 @@
         <vue-bottom-sheet
             v-model="selectContextMenu"
             class="select-context-menu"
-            :canSwipe="false"
         >
             <button @click="openCheckContextMenu">
-                {{ selectedProps }} 삭제
+                {{
+                    selectedProps && selectedProps.comment_id
+                        ? "댓글"
+                        : selectedProps && selectedProps.post_id
+                        ? "게시물"
+                        : ""
+                }}
+                삭제
             </button>
         </vue-bottom-sheet>
-        <vue-bottom-sheet
-            v-model="checkContextMenu"
-            class="check-context-menu"
-            :canSwipe="false"
-        >
+        <vue-bottom-sheet v-model="checkContextMenu" class="check-context-menu">
             <div class="title-area">
                 <p class="title">경고</p>
             </div>
             <hr />
             <div class="content-area">
                 <p>
-                    정말로 작성하신 {{ selectedProps }}을 삭제하시겠습니까?<br />포함되어
-                    있던 모든 항목들이 삭제됩니다.
+                    정말로 작성하신
+                    {{
+                        selectedProps && selectedProps.comment_id
+                            ? "댓글"
+                            : selectedProps && selectedProps.post_id
+                            ? "게시물"
+                            : ""
+                    }}을 삭제하시겠습니까?<br />포함되어 있던 모든 항목들이
+                    삭제됩니다.
                 </p>
-                <button class="anyway">삭제</button>
+                <button class="anyway" @click="onClickDeletePost">삭제</button>
                 <button class="cancel" @click="closeCheckContextMenu">
+                    취소
+                </button>
+            </div>
+        </vue-bottom-sheet>
+        <vue-bottom-sheet v-model="favContextMenu" class="check-context-menu">
+            <div class="title-area">
+                <p class="title">친구 요청하기</p>
+            </div>
+            <hr />
+            <div class="content-area">
+                <p>
+                    {{
+                        selectedProps &&
+                        generateNickname(
+                            boardRefData.post_id,
+                            selectedProps.user_id
+                        )
+                    }}님에게 친구 요청하시겠습니까?<br />20 하트가 소모됩니다.
+                </p>
+                <button
+                    class="request gradient-background"
+                    @click="onClickSendFriend"
+                >
+                    요청
+                </button>
+                <button class="cancel" @click="closeFavContextMenu">
                     취소
                 </button>
             </div>
@@ -656,7 +731,7 @@
     .title-area {
         text-align: center;
         font-weight: 700;
-        font-size: 16px;
+        font-size: 18px;
         padding: 8px 0;
     }
 
@@ -673,7 +748,7 @@
             text-align: center;
             font-weight: 500;
             word-break: keep-all;
-            font-size: 12px;
+            font-size: 14px;
         }
 
         > button {
@@ -681,6 +756,11 @@
             width: 100%;
             height: 36px;
             font-weight: 700;
+            font-size: 16px;
+        }
+
+        > .request {
+            margin-top: 24px;
         }
 
         > .anyway {
@@ -700,6 +780,7 @@
 
 <script setup lang="js">
 import { supabase } from '@/lib/supabase';
+import router from '@/router';
 import { onMounted, ref, defineEmits, defineProps } from 'vue';
 import { useRoute } from "vue-router";
 import { VueBottomSheet } from 'vue3-bottom-sheet';
@@ -715,7 +796,8 @@ const isLiked = ref(true);
 const currentUserId = ref('');
 const selectContextMenu = ref(false);
 const checkContextMenu = ref(false);
-const selectedProps = ref('');
+const favContextMenu = ref(false);
+const selectedProps = ref(null);
 
 const onClickReplyBtn = (commentId, userId) => {
     emit('reply', commentId, userId);
@@ -723,23 +805,137 @@ const onClickReplyBtn = (commentId, userId) => {
 
 const openSelectContextMenu = (event) => {
     const button = event.currentTarget;
-    if (button.classList.contains('post')) {
-        console.log("post")
-        selectedProps.value = '게시물';
-    } else if (button.classList.contains('comment')) {
-        console.log('comment')
-        selectedProps.value = '댓글';
-    }
+    selectedProps.value = JSON.parse(button.value);
     console.log(selectedProps.value)
     selectContextMenu.value = true; // open 메서드 호출
+    console.log(currentUserId.value === selectedProps.value.user_id)
 };
 
 const openCheckContextMenu = () => {
-    checkContextMenu.value = true; // open 메서드 호출
+    if (currentUserId.value === selectedProps.value.user_id) checkContextMenu.value = true;
+    else alert("작성자 본인만 삭제 가능합니다!");
 };
 
 const closeCheckContextMenu = () => {
     checkContextMenu.value = false;
+    selectContextMenu.value = false;
+}
+
+const openFavContextMenu = (event) => {
+    const button = event.currentTarget;
+    selectedProps.value = JSON.parse(button.value);
+    favContextMenu.value = true;
+}
+
+const closeFavContextMenu = () => {
+    favContextMenu.value = false;
+}
+
+const onClickSendFriend = async () => {
+    try {
+        const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('id, heart')
+            .eq('id', currentUserId.value)
+            .single();
+        if (userError) throw userError;
+
+        if (userData.heart < 20) {
+            alert("하트가 부족합니다! 충전 후 이용해주세요.");
+            closeFavContextMenu();
+            return false;
+        }
+
+        // currentUserId가 follow_id_1에 있을 때의 데이터 조회
+        const { data: followData1, error: followError1 } = await supabase
+            .from('user_follow')
+            .select('*')
+            .or(`follow_id_1.eq.${currentUserId.value},follow_id_2.eq.${selectedProps.value.user_id}`)
+
+        if (followError1) throw followError1;
+
+        // currentUserId가 follow_id_2에 있을 때의 데이터 조회
+        const { data: followData2, error: followError2 } = await supabase
+            .from('user_follow')
+            .select('*')
+            .or(`follow_id_1.eq.${selectedProps.value.user_id},follow_id_2.eq.${currentUserId.value}`)
+
+        if (followError2) throw followError2;
+
+        // 두 데이터의 길이를 합칩니다.
+        const totalLength = (followData1 ? followData1.length : 0) + (followData2 ? followData2.length : 0);
+
+        if (totalLength > 0) {
+            alert("이미 친구 요청을 보낸 적 있는 상대입니다!");
+            closeFavContextMenu();
+            return false;
+        }
+
+        const { error: updateUserError } = await supabase
+            .from('users')
+            .upsert({
+                id: currentUserId.value,
+                heart: userData.heart - 20
+            });
+        if (updateUserError) throw updateUserError;
+
+        const { error: followError } = await supabase
+            .from('user_follow')
+            .insert({
+                follow_id_1: currentUserId.value,
+                follow_id_2: selectedProps.value.user_id
+            });
+        if (followError) throw followError;
+
+        alert("친구 요청을 완료했습니다!");
+        closeFavContextMenu();
+    } catch (error) {
+        console.error("친구 요청 실패: ", error);
+    }
+}
+
+const onClickDeletePost = async () => {
+    try {
+        if (selectedProps.value.post_id) {
+            const { error: likeDeleteError } = await supabase
+                .from('secret_board_likes')
+                .delete()
+                .eq('post_id', selectedProps.value.post_id)
+            if (likeDeleteError) throw likeDeleteError;
+
+            const { error: commentDeleteError } = await supabase
+                .from('secret_board_comments')
+                .delete()
+                .eq('post_id', selectedProps.value.post_id)
+            if (commentDeleteError) throw commentDeleteError;
+
+            const { error: postDeleteError } = await supabase
+                .from('secret_board')
+                .delete()
+                .eq('post_id', selectedProps.value.post_id)
+            if (postDeleteError) throw postDeleteError;
+
+            router.replace('/secret');
+        } else if (selectedProps.value.comment_id) {
+            const { error: childDeleteError } = await supabase
+                .from('secret_board_comments')
+                .delete()
+                .eq('parent_comment_id', selectedProps.value.comment_id)
+            if (childDeleteError) throw childDeleteError;
+
+            const { error: parentDeleteError } = await supabase
+                .from('secret_board_comments')
+                .delete()
+                .eq('comment_id', selectedProps.value.comment_id)
+            if (parentDeleteError) throw parentDeleteError;
+
+            emit('reloadComment');
+        }
+
+        closeCheckContextMenu();
+    } catch (error) {
+        console.error("삭제 중 오류 발생: ", error);
+    }
 }
 
 const fetchData = async () => {
