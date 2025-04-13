@@ -134,7 +134,7 @@ const onClickSendMessage = async () => {
                 post_id: route.query.id,
                 user_id: userId,
                 content: message.value,
-                parent_comment_id: replyCommentId.value.comment_id,
+                parent_comment_id: replyCommentId.value ? replyCommentId.value.comment_id : null,
             });
         if (sendError) throw sendError;
 
