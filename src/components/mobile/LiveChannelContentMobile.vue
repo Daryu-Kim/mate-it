@@ -35,7 +35,10 @@
                 v-for="(item, index) in data"
                 :key="index"
             >
-                <div class="img-area">
+                <div
+                    class="img-area"
+                    :style="`background-image: url(${item.thumbnail_url});`"
+                >
                     <div class="chip-area">
                         <p v-if="item.stream_type === 'audio'" class="choice">
                             오디오
@@ -166,7 +169,6 @@
 
             > .img-area {
                 aspect-ratio: 1.5 / 1;
-                background-image: url("https://picsum.photos/600");
                 border-radius: 8px;
                 background-size: cover;
                 background-position: center center;
