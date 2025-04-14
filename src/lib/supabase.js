@@ -166,7 +166,7 @@ export async function createMatchCards() {
         for (const score of [2, 1, 0]) {
             const group = groupedUsers[score];
             const shuffled = [...group].sort(() => Math.random() - 0.5);
-            selectedUsers.push(...shuffled.slice(0, 4));
+            selectedUsers.push(...shuffled.slice(0, 2));
         }
         
         const { error: insertError } = await supabase

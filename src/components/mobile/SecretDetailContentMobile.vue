@@ -11,6 +11,7 @@
                         :value="
                             JSON.stringify({
                                 post_id: boardRefData.post_id,
+                                user_id: boardRefData.user_id,
                             })
                         "
                     >
@@ -120,7 +121,7 @@
             </div>
         </div>
         <div class="content-area">
-            <p>{{ boardRefData.content }}</p>
+            <p v-html="boardRefData.content"></p>
             <div class="like-area">
                 <button @click="onClickLikeBtn()">
                     <div>
@@ -820,6 +821,7 @@ const openSelectContextMenu = (event) => {
 };
 
 const openCheckContextMenu = () => {
+    console.log(currentUserId.value, selectedProps.value.user_id)
     if (currentUserId.value === selectedProps.value.user_id) checkContextMenu.value = true;
     else alert("작성자 본인만 삭제 가능합니다!");
 };

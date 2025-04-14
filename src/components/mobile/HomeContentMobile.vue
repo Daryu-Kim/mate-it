@@ -3,7 +3,7 @@
         <div class="title-area">
             <div class="text-area">
                 <p class="title">오늘의 인연</p>
-                <p class="desc">매일 오전 9시에 새로운 인연 12명을 소개시켜 드립니다!</p>
+                <p class="desc">매일 오전 9시에 새로운 인연 6명을 소개시켜 드립니다!</p>
             </div>
         </div>
         <div class="card-area">

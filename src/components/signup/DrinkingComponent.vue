@@ -9,7 +9,13 @@
             </div>
         </div>
         <div>
-            <button class="full-width-primary-btn" :disabled="!isFilled" @click="nextStep">확인</button>
+            <button
+                class="full-width-primary-btn"
+                :disabled="!isFilled"
+                @click="nextStep"
+            >
+                확인
+            </button>
         </div>
     </div>
 </template>
@@ -23,9 +29,9 @@
     flex-direction: column;
     justify-content: space-between;
 
-    >div {
-        >.title-area {
-            >p {
+    > div {
+        > .title-area {
+            > p {
                 word-break: keep-all;
                 font-weight: 700;
                 font-size: 24px;
@@ -33,11 +39,11 @@
             }
         }
 
-        >.input-area {
+        > .input-area {
             margin-top: 24px;
         }
 
-        >button {
+        > button {
             font-weight: 700;
             font-size: 16px;
         }

@@ -10,6 +10,7 @@ import { getCurrentSession } from '@/lib/supabase'
 import NotFoundView from '@/views/NotFoundView.vue'
 import SignupView from '@/views/SignupView.vue'
 import SecretDetailView from '@/views/SecretDetailView.vue'
+import SecretAddView from '@/views/SecretAddView.vue'
 
 const routes = [
   {
@@ -39,6 +40,12 @@ const routes = [
     path: '/secret-detail',
     name: 'secret-detail',
     component: SecretDetailView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/secret-add',
+    name: 'secret-add',
+    component: SecretAddView,
     meta: { requiresAuth: true }
   },
   {
