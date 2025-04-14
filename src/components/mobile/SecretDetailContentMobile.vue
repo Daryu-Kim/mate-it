@@ -815,13 +815,10 @@ const onClickReplyBtn = (commentId, userId) => {
 const openSelectContextMenu = (event) => {
     const button = event.currentTarget;
     selectedProps.value = JSON.parse(button.value);
-    console.log(selectedProps.value)
     selectContextMenu.value = true; // open 메서드 호출
-    console.log(currentUserId.value === selectedProps.value.user_id)
 };
 
 const openCheckContextMenu = () => {
-    console.log(currentUserId.value, selectedProps.value.user_id)
     if (currentUserId.value === selectedProps.value.user_id) checkContextMenu.value = true;
     else alert("작성자 본인만 삭제 가능합니다!");
 };

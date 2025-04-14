@@ -188,7 +188,6 @@ const fetchUserHeart = async () => {
             .single();
         if (userError) throw userError;
 
-        console.log(userData);
         userHeart.value = userData.heart;
     } catch (error) {
         console.error("유저 정보 가져오기 실패: ", error);
