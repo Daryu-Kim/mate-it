@@ -11,6 +11,7 @@ import NotFoundView from '@/views/NotFoundView.vue'
 import SignupView from '@/views/SignupView.vue'
 import SecretDetailView from '@/views/SecretDetailView.vue'
 import SecretAddView from '@/views/SecretAddView.vue'
+import ChatListView from '@/views/ChatListView.vue'
 
 const routes = [
   {
@@ -22,6 +23,12 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: SignupView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/chat-list',
+    name: 'chat-list',
+    component: ChatListView,
     meta: { requiresAuth: true }
   },
   {
