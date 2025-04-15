@@ -12,6 +12,8 @@ import SignupView from '@/views/SignupView.vue'
 import SecretDetailView from '@/views/SecretDetailView.vue'
 import SecretAddView from '@/views/SecretAddView.vue'
 import ChatListView from '@/views/ChatListView.vue'
+import ChatMessageView from '@/views/ChatMessageView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 
 const routes = [
   {
@@ -32,6 +34,12 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/chat',
+    name: 'chat',
+    component: ChatMessageView,
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/live-channel',
     name: 'live-channel',
     component: LiveChannelView,
@@ -41,6 +49,12 @@ const routes = [
     path: '/secret',
     name: 'secret',
     component: SecretView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView,
     meta: { requiresAuth: true }
   },
   {

@@ -1,13 +1,13 @@
 <template>
-    <div class="profile">
+    <div class="chat-message">
         <MainHeader />
-        <ProfileContent />
+        <ChatMessageContent />
         <BottomNavigationBar />
     </div>
 </template>
 
 <style lang="scss" scoped>
-.profile {
+.chat-message {
     display: flex;
     flex-direction: column;
     height: 100dvh;
@@ -16,6 +16,6 @@
 
 <script setup>
 import BottomNavigationBar from "@/components/template/BottomNavigationBar.vue";
+import ChatMessageContent from "@/components/template/ChatMessageContent.vue";
 import MainHeader from "@/components/template/MainHeader.vue";
-import ProfileContent from "@/components/template/ProfileContent.vue";
 </script>
