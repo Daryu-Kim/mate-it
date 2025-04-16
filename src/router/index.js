@@ -14,6 +14,7 @@ import SecretAddView from '@/views/SecretAddView.vue'
 import ChatListView from '@/views/ChatListView.vue'
 import ChatMessageView from '@/views/ChatMessageView.vue'
 import ProfileView from '@/views/ProfileView.vue'
+import MyPageView from '@/views/MyPageView.vue'
 
 const routes = [
   {
@@ -49,6 +50,12 @@ const routes = [
     path: '/secret',
     name: 'secret',
     component: SecretView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mypage',
+    name: 'mypage',
+    component: MyPageView,
     meta: { requiresAuth: true }
   },
   {
