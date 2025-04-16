@@ -28,10 +28,13 @@
                     </div>
                 </div>
                 <div class="button-area">
-                    <router-link to="" class="preview">
+                    <router-link :to="`/profile?id=${data.id}`" class="preview">
                         프로필 미리보기
                     </router-link>
-                    <router-link to="" class="edit gradient-background">
+                    <router-link
+                        to="/profile-edit"
+                        class="edit gradient-background"
+                    >
                         프로필 수정
                     </router-link>
                 </div>
@@ -48,7 +51,7 @@
                     <button class="share">친구에게 공유하기</button>
                 </div>
             </div>
-            <router-link to="">
+            <router-link to="/notice-list">
                 <p>공지 & 안내</p>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +65,7 @@
                     />
                 </svg>
             </router-link>
-            <router-link to="">
+            <router-link to="/settings">
                 <p>설정</p>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
