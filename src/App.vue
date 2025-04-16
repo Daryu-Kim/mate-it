@@ -134,4 +134,20 @@ button {
 .d-none {
     display: none;
 }
+
+.swiper-button-prev,
+.swiper-button-next {
+    &::after {
+        font-size: 24px !important;
+        font-weight: 900;
+        background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+.swiper-pagination-bullet-active {
+    background: linear-gradient(45deg, #2af598 0%, #009efd 100%) !important;
+}
 </style>
