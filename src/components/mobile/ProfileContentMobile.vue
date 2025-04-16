@@ -179,7 +179,7 @@
         > .summary-area {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            row-gap: 8px;
+            row-gap: 12px;
             padding: 12px 24px;
 
             > div {
@@ -203,13 +203,13 @@
         > .text-area {
             > .title {
                 font-weight: 700;
-                font-size: 14px;
+                font-size: 16px;
             }
 
             > .text {
                 font-weight: 500;
-                font-size: 12px;
-                margin-top: 8px;
+                font-size: 14px;
+                margin-top: 12px;
                 background-color: #cdcdcd;
                 border-radius: 8px;
                 padding: 8px;
@@ -219,7 +219,7 @@
         > .multiple-area {
             > .title {
                 font-weight: 700;
-                font-size: 14px;
+                font-size: 16px;
             }
 
             > .chip-area {
@@ -227,10 +227,10 @@
                 align-items: center;
                 gap: 8px;
                 flex-wrap: wrap;
-                margin-top: 8px;
+                margin-top: 12px;
                 > .chip {
                     border-radius: 100rem;
-                    font-size: 12px;
+                    font-size: 14px;
                     font-weight: 500;
                     background-color: #cdcdcd;
                     padding: 4px 12px;
@@ -244,8 +244,8 @@
             gap: 12px;
 
             > .image-area {
-                width: 48px;
-                height: 48px;
+                width: 56px;
+                height: 56px;
                 aspect-ratio: 1 / 1;
                 background-position: center center;
                 background-size: cover;
@@ -258,13 +258,13 @@
 
                 > .title {
                     font-weight: 700;
-                    font-size: 14px;
+                    font-size: 16px;
                 }
 
                 > .desc {
                     font-weight: 500;
-                    font-size: 12px;
-                    margin-top: 2px;
+                    font-size: 14px;
+                    margin-top: 4px;
                 }
             }
         }
