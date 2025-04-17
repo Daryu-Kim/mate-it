@@ -890,7 +890,8 @@ const onClickSendFriend = async () => {
             .from('user_follow')
             .insert({
                 follow_id_1: currentUserId.value,
-                follow_id_2: selectedProps.value.user_id
+                follow_id_2: selectedProps.value.user_id,
+                creater_id: currentUserId.value
             });
         if (followError) throw followError;
 

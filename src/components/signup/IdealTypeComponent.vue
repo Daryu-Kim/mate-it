@@ -6,14 +6,26 @@
             </div>
             <div class="input-area">
                 <div v-for="(item, index) in options" :key="index">
-                    <input v-model="ideal" :id="`ideal-${index}`" type="checkbox" name="ideal" :value="item.value"
-                        class="d-none" />
+                    <input
+                        v-model="ideal"
+                        :id="`ideal-${index}`"
+                        type="checkbox"
+                        name="ideal"
+                        :value="item.value"
+                        class="d-none"
+                    />
                     <label :for="`ideal-${index}`">{{ item.label }}</label>
                 </div>
             </div>
         </div>
         <div>
-            <button class="full-width-primary-btn" :disabled="!isFilled" @click="nextStep">확인</button>
+            <button
+                class="full-width-primary-btn"
+                :disabled="!isFilled"
+                @click="nextStep"
+            >
+                확인
+            </button>
         </div>
     </div>
 </template>
@@ -27,9 +39,9 @@
     flex-direction: column;
     justify-content: space-between;
 
-    >div {
-        >.title-area {
-            >p {
+    > div {
+        > .title-area {
+            > p {
                 word-break: keep-all;
                 font-weight: 700;
                 font-size: 24px;
@@ -37,7 +49,7 @@
             }
         }
 
-        >.input-area {
+        > .input-area {
             margin-top: 24px;
             padding: 8px 0;
             max-height: 70dvh;
@@ -49,8 +61,8 @@
             gap: 8px;
             row-gap: 20px;
 
-            >div {
-                >label {
+            > div {
+                > label {
                     cursor: pointer;
                     border: 1.5px solid #434343;
                     padding: 4px 12px;
@@ -60,15 +72,19 @@
                     background-color: #fff;
                 }
 
-                >input:checked+label {
-                    background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
+                > input:checked + label {
+                    background: linear-gradient(
+                        45deg,
+                        #2af598 0%,
+                        #009efd 100%
+                    );
                     border-color: transparent;
                     font-weight: 700;
                 }
             }
         }
 
-        >button {
+        > button {
             font-weight: 700;
             font-size: 16px;
         }
@@ -86,41 +102,50 @@ const isFilled = computed(() => ideal.value.length > 0);
 const emit = defineEmits();
 
 const options = [
-    { "label": "성격이 비슷한 사람", "value": "similar_personality" },
-    { "label": "매사에 적극적인 사람", "value": "proactive" },
-    { "label": "스포츠를 좋아하는 사람", "value": "sports_lover" },
-    { "label": "감성적인 사람", "value": "emotional_person" },
-    { "label": "유머 감각이 있는 사람", "value": "humorous_person" },
-    { "label": "성실한 사람", "value": "diligent_person" },
-    { "label": "자기계발에 열심인 사람", "value": "self_improvement" },
-    { "label": "모험을 좋아하는 사람", "value": "adventurous_person" },
-    { "label": "자유로운 성격의 사람", "value": "free_spirited_person" },
-    { "label": "책을 좋아하는 사람", "value": "book_lover" },
-    { "label": "친절한 사람", "value": "kind_person" },
-    { "label": "연애에 진지한 사람", "value": "serious_about_relationship" },
-    { "label": "다정한 사람", "value": "affectionate_person" },
-    { "label": "매력적인 외모의 사람", "value": "attractive_appearance" },
-    { "label": "도전적인 사람", "value": "challenging_person" },
-    { "label": "충실한 사람", "value": "faithful_person" },
-    { "label": "솔직한 사람", "value": "honest_person" },
-    { "label": "상냥한 사람", "value": "gentle_person" },
-    { "label": "조용한 사람", "value": "quiet_person" },
-    { "label": "동기 부여가 되는 사람", "value": "motivating_person" },
-    { "label": "열정적인 사람", "value": "passionate_person" },
-    { "label": "긍정적인 사람", "value": "positive_person" },
-    { "label": "소통을 잘하는 사람", "value": "good_communicator" },
-    { "label": "자기 표현을 잘하는 사람", "value": "self_expressive_person" },
-    { "label": "이해심 많은 사람", "value": "empathetic_person" },
-    { "label": "창의적인 사람", "value": "creative_person" },
-    { "label": "끈기 있는 사람", "value": "persistent_person" },
-    { "label": "타인을 배려하는 사람", "value": "considerate_person" },
-    { "label": "자기 주장이 강한 사람", "value": "assertive_person" },
-    { "label": "모든 일을 맡아서 할 수 있는 사람", "value": "take_charge_person" },
-    { "label": "재미있는 사람", "value": "funny_person" },
-    { "label": "친구를 쉽게 사귀는 사람", "value": "easy_to_make_friends" },
-    { "label": "사려 깊은 사람", "value": "thoughtful_person" },
-    { "label": "계획적인 사람", "value": "organized_person" },
-    { "label": "논리적인 사람", "value": "logical_person" }
+    { "label": "활발한", "value": "active" },
+    { "label": "차분한", "value": "calm" },
+    { "label": "낙천적인", "value": "optimistic" },
+    { "label": "내성적인", "value": "introverted" },
+    { "label": "외향적인", "value": "extroverted" },
+    { "label": "상냥한", "value": "kind" },
+    { "label": "고집 센", "value": "stubborn" },
+    { "label": "개방적인", "value": "open_minded" },
+    { "label": "조용한", "value": "quiet" },
+    { "label": "유머러스한", "value": "humorous" },
+    { "label": "호기심 많은", "value": "curious" },
+    { "label": "성실한", "value": "diligent" },
+    { "label": "이해심 있는", "value": "understanding" },
+    { "label": "감정적인", "value": "emotional" },
+    { "label": "이성적인", "value": "rational" },
+    { "label": "자유로운", "value": "free_spirited" },
+    { "label": "책임감 있는", "value": "responsible" },
+    { "label": "배려 깊은", "value": "considerate" },
+    { "label": "조직적인", "value": "organized" },
+    { "label": "사교적인", "value": "sociable" },
+    { "label": "지적인", "value": "intellectual" },
+    { "label": "자기주장이 강한", "value": "assertive" },
+    { "label": "편안한", "value": "easygoing" },
+    { "label": "열정적인", "value": "passionate" },
+    { "label": "도전적인", "value": "challenging" },
+    { "label": "충동적인", "value": "impulsive" },
+    { "label": "진지한", "value": "serious" },
+    { "label": "친절한", "value": "gentle" },
+    { "label": "사려 깊은", "value": "thoughtful" },
+    { "label": "창의적인", "value": "creative" },
+    { "label": "자기 반성적인", "value": "self_reflective" },
+    { "label": "겸손한", "value": "humble" },
+    { "label": "충실한", "value": "loyal" },
+    { "label": "이해가 빠른", "value": "quick_learner" },
+    { "label": "불안한", "value": "anxious" },
+    { "label": "자기 중심적인", "value": "self_centered" },
+    { "label": "활기찬", "value": "energetic" },
+    { "label": "주도적인", "value": "leadership" },
+    { "label": "정직한", "value": "honest" },
+    { "label": "호탕한", "value": "outgoing" },
+    { "label": "창의적", "value": "innovative" },
+    { "label": "신뢰할 수 있는", "value": "trustworthy" },
+    { "label": "진정성 있는", "value": "genuine" },
+    { "label": "책임감 있는", "value": "accountable" }
 ];
 
 const nextStep = async () => {
