@@ -45,10 +45,15 @@
                     <p class="amount">{{ data.heart }}</p>
                 </div>
                 <div class="button-area">
-                    <button class="charge gradient-background">
+                    <button
+                        class="charge gradient-background"
+                        @click="openShop"
+                    >
                         하트 충전하기
                     </button>
-                    <button class="share">친구에게 공유하기</button>
+                    <button class="share" @click="shareThisApp">
+                        친구에게 공유하기
+                    </button>
                 </div>
             </div>
             <router-link to="/notice-list">
@@ -80,6 +85,7 @@
                 </svg>
             </router-link>
         </div>
+        <ShopDialog v-model="isOpenedShop" />
     </div>
 </template>
 
@@ -258,11 +264,28 @@
 <script setup lang="js">
 import { supabase } from '@/lib/supabase';
 import { onMounted, ref } from 'vue';
+import ShopDialog from '../dialog/ShopDialog.vue';
 
 const data = ref([]);
 const currentUserId = ref('');
 const friendCount = ref(0);
 const likeCount = ref(0);
+const isOpenedShop = ref(false);
+
+const shareThisApp = () => {
+    if (typeof navigator.share !== "undefined") {
+        window.navigator.share({
+            title: '친구 없다고? 메이트잇 몰랐구나',
+            text: '동네 친구, 취미 메이트, 오늘의 약속까지! 지금 메이트잇 해봐~',
+            url: 'https://mate-it.vercel.app/',
+            files: []
+        });
+    }
+}
+
+const openShop = () => {
+    isOpenedShop.value = true;
+}
 
 const loadUserData = async () => {
     try {

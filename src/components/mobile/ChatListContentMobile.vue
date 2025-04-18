@@ -26,7 +26,10 @@
                 </div>
                 <div class="time-area">
                     <p class="timestamp">
-                        {{ formatTimestamp(item.lastMessageTimestamp) }}
+                        {{
+                            item.lastMessageTimestamp ??
+                            formatTimestamp(item.lastMessageTimestamp)
+                        }}
                     </p>
                     <p v-if="item.notReadMessages > 0" class="not-read">
                         {{ item.notReadMessages }}
