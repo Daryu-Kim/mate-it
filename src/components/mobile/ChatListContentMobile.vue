@@ -8,11 +8,8 @@
         </div>
         <div class="filter-area">
             <div class="tab-menu">
-                <input type="radio" name="menu" id="menu-1" class="tab-button d-none" v-model="selectedTab"
-                    value="all" checked></input>
-                <label for="menu-1">전체</label>
                 <input type="radio" name="menu" id="menu-2" class="tab-button d-none" v-model="selectedTab"
-                    value="person"></input>
+                    value="person" checked></input>
                 <label for="menu-2">1:1 채팅</label>
                 <input type="radio" name="menu" id="menu-3" class="tab-button d-none" v-model="selectedTab"
                     value="group"></input>
@@ -20,47 +17,10 @@
             </div>
 
             <div class="tab-content">
-                <div class="chat-area" v-if="selectedTab === 'all'">
-                    <router-link
-                        :to="`/chat?id=${item.chat_id}`"
-                        v-for="(item, index) in allDatas"
-                        :key="index"
-                    >
-                        <div class="info-area">
-                            <div
-                                class="user-image-area"
-                                :style="`background-image: url('${item.avatar_main}');`"
-                            ></div>
-                            <div class="content-area">
-                                <p class="user-name">{{ item.username }}</p>
-                                <p class="last-content">
-                                    {{ item.lastMessageContent }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="time-area">
-                            <p class="timestamp">
-                                {{
-                                    formatTimestamp(item.lastMessageTimestamp)
-                                }}
-                            </p>
-                            <p v-if="item.notReadMessages > 0" class="not-read">
-                                {{ item.notReadMessages }}
-                            </p>
-                        </div>
-                    </router-link>
-                </div>
                 <div class="chat-area" v-if="selectedTab === 'person'">
-                    <router-link
-                        :to="`/chat?id=${item.chat_id}`"
-                        v-for="(item, index) in personDatas"
-                        :key="index"
-                    >
+                    <router-link :to="`/chat?id=${item.chat_id}`" v-for="(item, index) in personDatas" :key="index">
                         <div class="info-area">
-                            <div
-                                class="user-image-area"
-                                :style="`background-image: url('${item.avatar_main}');`"
-                            ></div>
+                            <div class="user-image-area" :style="`background-image: url('${item.avatar_main}');`"></div>
                             <div class="content-area">
                                 <p class="user-name">{{ item.username }}</p>
                                 <p class="last-content">
@@ -71,7 +31,8 @@
                         <div class="time-area">
                             <p class="timestamp">
                                 {{
-                                    formatTimestamp(item.lastMessageTimestamp)
+                                    item.lastMessageTimestamp ? formatTimestamp(item.lastMessageTimestamp) :
+                                        formatTimestamp(item.created_at)
                                 }}
                             </p>
                             <p v-if="item.notReadMessages > 0" class="not-read">
@@ -81,18 +42,12 @@
                     </router-link>
                 </div>
                 <div class="chat-area" v-if="selectedTab === 'group'">
-                    <router-link
-                        :to="`/chat?id=${item.chat_id}`"
-                        v-for="(item, index) in groupDatas"
-                        :key="index"
-                    >
+                    <router-link :to="`/group-chat?id=${item.event_id}`" v-for="(item, index) in groupDatas"
+                        :key="index">
                         <div class="info-area">
-                            <div
-                                class="user-image-area"
-                                :style="`background-image: url('${item.avatar_main}');`"
-                            ></div>
+                            <div class="user-image-area" :style="`background-image: url('${item.avatar_main}');`"></div>
                             <div class="content-area">
-                                <p class="user-name">{{ item.username }}</p>
+                                <p class="user-name">{{ item.title }}</p>
                                 <p class="last-content">
                                     {{ item.lastMessageContent }}
                                 </p>
@@ -101,7 +56,8 @@
                         <div class="time-area">
                             <p class="timestamp">
                                 {{
-                                    formatTimestamp(item.lastMessageTimestamp)
+                                    item.lastMessageTimestamp ? formatTimestamp(item.lastMessageTimestamp) :
+                                        formatTimestamp(item.created_at)
                                 }}
                             </p>
                             <p v-if="item.notReadMessages > 0" class="not-read">
@@ -122,20 +78,20 @@
     padding: 0 36px;
     padding-bottom: 64px;
 
-    > .title-area {
+    >.title-area {
         padding: 48px 0;
         text-align: left;
         display: flex;
         align-items: center;
         justify-content: space-between;
 
-        > .text-area {
-            > p.title {
+        >.text-area {
+            >p.title {
                 font-size: 28px;
                 font-weight: 900;
             }
 
-            > p.desc {
+            >p.desc {
                 font-size: 14px;
                 font-weight: 500;
                 color: #606060;
@@ -143,7 +99,7 @@
             }
         }
 
-        > button {
+        >button {
             width: fit-content;
             padding: 8px 24px;
             border-radius: 100rem;
@@ -193,14 +149,14 @@
                 border-radius: 100rem; // 스크롤바 바의 모서리를 둥글게 설정
             }
 
-            > .chat-area {
+            >.chat-area {
                 display: flex;
                 flex-direction: column;
                 gap: 16px;
                 width: 100%;
                 margin-top: 24px;
 
-                > a {
+                >a {
                     border-radius: 8px;
                     display: flex;
                     align-items: center;
@@ -208,14 +164,14 @@
                     text-decoration: none;
                     gap: 16px;
 
-                    > .info-area {
+                    >.info-area {
                         display: flex;
                         align-items: center;
                         gap: 10px;
                         flex: 1;
                         height: 48px;
 
-                        > .user-image-area {
+                        >.user-image-area {
                             width: 42px;
                             height: 42px;
                             aspect-ratio: 1 / 1;
@@ -225,10 +181,10 @@
                             border-radius: 8px;
                         }
 
-                        > .content-area {
+                        >.content-area {
                             text-align: start;
 
-                            > .user-name {
+                            >.user-name {
                                 font-weight: 700;
                                 font-size: 14px;
                                 color: black;
@@ -238,7 +194,7 @@
                                 width: 128px;
                             }
 
-                            > .last-content {
+                            >.last-content {
                                 margin-top: 2px;
                                 font-weight: 500;
                                 color: grey;
@@ -251,18 +207,18 @@
                         }
                     }
 
-                    > .time-area {
+                    >.time-area {
                         display: flex;
                         flex-direction: column;
                         align-items: end;
 
-                        > .timestamp {
+                        >.timestamp {
                             font-size: 12px;
                             color: grey;
                             font-weight: 500;
                         }
 
-                        > .not-read {
+                        >.not-read {
                             margin-top: 2px;
                             border-radius: 100rem;
                             font-size: 10px;
@@ -286,20 +242,51 @@ import { onMounted, ref } from 'vue';
 
 const personDatas = ref([]);
 const groupDatas = ref([]);
-const allDatas = ref([]);
-const selectedTab = ref('all');
-
-const loadAllChats = async () => {
-    try {
-        
-    } catch (error) {
-        console.error("전체 채팅 데이터 가져오기 실패: ", error);
-    }
-}
+const selectedTab = ref('person');
 
 const loadGroupChats = async () => {
     try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        if (sessionError || !session) {
+            console.error('세션을 가져올 수 없습니다:', sessionError?.message);
+            return null;
+        }
+        const currentUid = session.user.id;
 
+        const { data: groupData, error: groupError } = await supabase
+            .from('events')
+            .select('*')
+            .contains('participants', [currentUid])
+        if (groupError) throw groupError;
+
+        for (const chat of groupData) {
+            const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('avatar_main')
+                .eq('id', chat.user_id)
+                .single();
+            if (userError) throw userError;
+
+            chat.avatar_main = userData.avatar_main[0];
+
+            const { data: messagesDatas, error: messagesError } = await supabase
+                .from('event_chat_messages')
+                .select('*')
+                .eq('event_id', chat.event_id)
+                .order('timestamp', { ascending: false })
+            if (messagesError) throw messagesError;
+
+            chat.lastMessageContent = messagesDatas.length > 0 ? messagesDatas[0].content : "새로운 대화를 시작해보세요!";
+            chat.lastMessageTimestamp = messagesDatas.length > 0 ? messagesDatas[0].timestamp : "";
+            chat.notReadMessages = messagesDatas.filter(message =>
+                message.user_id !== currentUid && !message.isReaded
+            ).length;
+            chat.filter = "group";
+        }
+
+        groupData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        groupDatas.value = groupData;
     } catch (error) {
         console.error("그룹 채팅 데이터 가져오기 실패: ", error);
     }
@@ -355,6 +342,7 @@ const loadPersonChats = async () => {
             chat.notReadMessages = messagesDatas.filter(message =>
                 message.sender_id !== currentUid && !message.isReaded
             ).length;
+            chat.filter = "person";
         }
 
         combinedChatData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -399,6 +387,5 @@ const formatTimestamp = (timestamp) => {
 onMounted(async () => {
     await loadPersonChats();
     await loadGroupChats();
-    await loadAllChats();
 });
 </script>
