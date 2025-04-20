@@ -15,6 +15,7 @@ import ChatListView from '@/views/ChatListView.vue'
 import ChatMessageView from '@/views/ChatMessageView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import MyPageView from '@/views/MyPageView.vue'
+import AlertListView from '@/views/AlertListView.vue'
 
 const routes = [
   {
@@ -26,6 +27,12 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: SignupView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/alert',
+    name: 'alert',
+    component: AlertListView,
     meta: { requiresAuth: true }
   },
   {

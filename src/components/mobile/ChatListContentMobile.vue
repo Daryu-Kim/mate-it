@@ -6,36 +6,111 @@
                 <p class="desc">매칭된 사람들과 채팅을 진행해보세요!</p>
             </div>
         </div>
-        <div class="chat-area">
-            <router-link
-                :to="`/chat?id=${item.chat_id}`"
-                v-for="(item, index) in data"
-                :key="index"
-            >
-                <div class="info-area">
-                    <div
-                        class="user-image-area"
-                        :style="`background-image: url('${item.avatar_main}');`"
-                    ></div>
-                    <div class="content-area">
-                        <p class="user-name">{{ item.username }}</p>
-                        <p class="last-content">
-                            {{ item.lastMessageContent }}
-                        </p>
-                    </div>
+        <div class="filter-area">
+            <div class="tab-menu">
+                <input type="radio" name="menu" id="menu-1" class="tab-button d-none" v-model="selectedTab"
+                    value="all" checked></input>
+                <label for="menu-1">전체</label>
+                <input type="radio" name="menu" id="menu-2" class="tab-button d-none" v-model="selectedTab"
+                    value="person"></input>
+                <label for="menu-2">1:1 채팅</label>
+                <input type="radio" name="menu" id="menu-3" class="tab-button d-none" v-model="selectedTab"
+                    value="group"></input>
+                <label for="menu-3">모임 채팅</label>
+            </div>
+
+            <div class="tab-content">
+                <div class="chat-area" v-if="selectedTab === 'all'">
+                    <router-link
+                        :to="`/chat?id=${item.chat_id}`"
+                        v-for="(item, index) in allDatas"
+                        :key="index"
+                    >
+                        <div class="info-area">
+                            <div
+                                class="user-image-area"
+                                :style="`background-image: url('${item.avatar_main}');`"
+                            ></div>
+                            <div class="content-area">
+                                <p class="user-name">{{ item.username }}</p>
+                                <p class="last-content">
+                                    {{ item.lastMessageContent }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="time-area">
+                            <p class="timestamp">
+                                {{
+                                    formatTimestamp(item.lastMessageTimestamp)
+                                }}
+                            </p>
+                            <p v-if="item.notReadMessages > 0" class="not-read">
+                                {{ item.notReadMessages }}
+                            </p>
+                        </div>
+                    </router-link>
                 </div>
-                <div class="time-area">
-                    <p class="timestamp">
-                        {{
-                            item.lastMessageTimestamp ??
-                            formatTimestamp(item.lastMessageTimestamp)
-                        }}
-                    </p>
-                    <p v-if="item.notReadMessages > 0" class="not-read">
-                        {{ item.notReadMessages }}
-                    </p>
+                <div class="chat-area" v-if="selectedTab === 'person'">
+                    <router-link
+                        :to="`/chat?id=${item.chat_id}`"
+                        v-for="(item, index) in personDatas"
+                        :key="index"
+                    >
+                        <div class="info-area">
+                            <div
+                                class="user-image-area"
+                                :style="`background-image: url('${item.avatar_main}');`"
+                            ></div>
+                            <div class="content-area">
+                                <p class="user-name">{{ item.username }}</p>
+                                <p class="last-content">
+                                    {{ item.lastMessageContent }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="time-area">
+                            <p class="timestamp">
+                                {{
+                                    formatTimestamp(item.lastMessageTimestamp)
+                                }}
+                            </p>
+                            <p v-if="item.notReadMessages > 0" class="not-read">
+                                {{ item.notReadMessages }}
+                            </p>
+                        </div>
+                    </router-link>
                 </div>
-            </router-link>
+                <div class="chat-area" v-if="selectedTab === 'group'">
+                    <router-link
+                        :to="`/chat?id=${item.chat_id}`"
+                        v-for="(item, index) in groupDatas"
+                        :key="index"
+                    >
+                        <div class="info-area">
+                            <div
+                                class="user-image-area"
+                                :style="`background-image: url('${item.avatar_main}');`"
+                            ></div>
+                            <div class="content-area">
+                                <p class="user-name">{{ item.username }}</p>
+                                <p class="last-content">
+                                    {{ item.lastMessageContent }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="time-area">
+                            <p class="timestamp">
+                                {{
+                                    formatTimestamp(item.lastMessageTimestamp)
+                                }}
+                            </p>
+                            <p v-if="item.notReadMessages > 0" class="not-read">
+                                {{ item.notReadMessages }}
+                            </p>
+                        </div>
+                    </router-link>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -78,84 +153,126 @@
         }
     }
 
-    > .chat-area {
+    >.filter-area {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 8px;
 
-        > a {
-            box-shadow: 2px 2px 4px rgba($color: #000000, $alpha: 0.35);
-            border-radius: 8px;
+        >.tab-menu {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            gap: 16px;
-            padding: 8px 16px;
+            gap: 8px;
 
-            > .info-area {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                flex: 1;
-                height: 48px;
-
-                > .user-image-area {
-                    width: 42px;
-                    height: 42px;
-                    aspect-ratio: 1 / 1;
-                    background-position: center center;
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    border-radius: 8px;
-                }
-
-                > .content-area {
-                    text-align: start;
-
-                    > .user-name {
-                        font-weight: 700;
-                        font-size: 14px;
-                        color: black;
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                        width: 128px;
-                    }
-
-                    > .last-content {
-                        margin-top: 2px;
-                        font-weight: 500;
-                        color: grey;
-                        font-size: 12px;
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                        width: 128px;
-                    }
-                }
+            >label {
+                border-radius: 8px;
+                padding: 8px 12px;
+                font-weight: 500;
+                font-size: 14px;
+                background-color: #efefef;
+                color: #999;
+                cursor: pointer;
             }
 
-            > .time-area {
+            >input:checked+label {
+                background-color: black;
+                color: white;
+                font-weight: 700;
+            }
+        }
+
+        >.tab-content {
+            overflow-y: auto;
+
+            &::-webkit-scrollbar {
+                background: transparent;
+                width: 8px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: rgba($color: #fff, $alpha: 0.5); // 스크롤바 바의 색상 및 투명도 설정
+                border-radius: 100rem; // 스크롤바 바의 모서리를 둥글게 설정
+            }
+
+            > .chat-area {
                 display: flex;
                 flex-direction: column;
-                align-items: end;
+                gap: 16px;
+                width: 100%;
+                margin-top: 24px;
 
-                > .timestamp {
-                    font-size: 12px;
-                    color: grey;
-                    font-weight: 500;
-                }
+                > a {
+                    border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    text-decoration: none;
+                    gap: 16px;
 
-                > .not-read {
-                    margin-top: 2px;
-                    border-radius: 100rem;
-                    font-size: 10px;
-                    font-weight: 700;
-                    color: white;
-                    background-color: #fd3725;
-                    width: fit-content;
-                    padding: 2px 6px;
+                    > .info-area {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        flex: 1;
+                        height: 48px;
+
+                        > .user-image-area {
+                            width: 42px;
+                            height: 42px;
+                            aspect-ratio: 1 / 1;
+                            background-position: center center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            border-radius: 8px;
+                        }
+
+                        > .content-area {
+                            text-align: start;
+
+                            > .user-name {
+                                font-weight: 700;
+                                font-size: 14px;
+                                color: black;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                width: 128px;
+                            }
+
+                            > .last-content {
+                                margin-top: 2px;
+                                font-weight: 500;
+                                color: grey;
+                                font-size: 12px;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                width: 128px;
+                            }
+                        }
+                    }
+
+                    > .time-area {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: end;
+
+                        > .timestamp {
+                            font-size: 12px;
+                            color: grey;
+                            font-weight: 500;
+                        }
+
+                        > .not-read {
+                            margin-top: 2px;
+                            border-radius: 100rem;
+                            font-size: 10px;
+                            font-weight: 700;
+                            color: white;
+                            background-color: #fd3725;
+                            width: fit-content;
+                            padding: 2px 6px;
+                        }
+                    }
                 }
             }
         }
@@ -167,9 +284,28 @@
 import { supabase } from '@/lib/supabase';
 import { onMounted, ref } from 'vue';
 
-const data = ref([]);
+const personDatas = ref([]);
+const groupDatas = ref([]);
+const allDatas = ref([]);
+const selectedTab = ref('all');
 
-const loadChats = async () => {
+const loadAllChats = async () => {
+    try {
+        
+    } catch (error) {
+        console.error("전체 채팅 데이터 가져오기 실패: ", error);
+    }
+}
+
+const loadGroupChats = async () => {
+    try {
+
+    } catch (error) {
+        console.error("그룹 채팅 데이터 가져오기 실패: ", error);
+    }
+}
+
+const loadPersonChats = async () => {
     try {
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         if (sessionError || !session) {
@@ -225,9 +361,9 @@ const loadChats = async () => {
 
         console.log(combinedChatData)
 
-        data.value = combinedChatData;
+        personDatas.value = combinedChatData;
     } catch (error) {
-        console.error('사용자 데이터 가져오기 실패', error);
+        console.error('개인 대화 데이터 가져오기 실패: ', error);
     }
 }
 
@@ -260,7 +396,9 @@ const formatTimestamp = (timestamp) => {
     return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}.`;
 }
 
-onMounted(() => {
-    loadChats();
+onMounted(async () => {
+    await loadPersonChats();
+    await loadGroupChats();
+    await loadAllChats();
 });
 </script>
