@@ -9,18 +9,16 @@
         <div class="content-area">
             <div class="profile-area">
                 <div class="profile-detail-area">
-                    <div
-                        class="user-image-area"
-                        :style="`background-image: url('${
-                            data.avatar_main && data.avatar_main[0]
-                        }');`"
-                    ></div>
+                    <div class="user-image-area" :style="`background-image: url('${data.avatar_main && data.avatar_main[0]
+                        }');`"></div>
                     <div class="info-area">
                         <p class="name">{{ data.username }}</p>
                         <div>
-                            <p>
-                                친구 <span>{{ friendCount }}</span>
-                            </p>
+                            <router-link to="/friend-list">
+                                <p>
+                                    친구 <span>{{ friendCount }}</span>
+                                </p>
+                            </router-link>
                             <p>
                                 좋아요 <span>{{ likeCount }}</span>
                             </p>
@@ -31,10 +29,7 @@
                     <router-link :to="`/profile?id=${data.id}`" class="preview">
                         프로필 미리보기
                     </router-link>
-                    <router-link
-                        to="/profile-edit"
-                        class="edit gradient-background"
-                    >
+                    <router-link to="/profile-edit" class="edit gradient-background">
                         프로필 수정
                     </router-link>
                 </div>
@@ -45,10 +40,7 @@
                     <p class="amount">{{ data.heart }}</p>
                 </div>
                 <div class="button-area">
-                    <button
-                        class="charge gradient-background"
-                        @click="openShop"
-                    >
+                    <button class="charge gradient-background" @click="openShop">
                         하트 충전하기
                     </button>
                     <button class="share" @click="shareThisApp">
@@ -58,30 +50,16 @@
             </div>
             <router-link to="/notice-list">
                 <p>공지 & 안내</p>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="24px"
-                    viewBox="0 -960 960 960"
-                    width="24px"
-                    fill="#000000"
-                >
-                    <path
-                        d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"
-                    />
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="#000000">
+                    <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
                 </svg>
             </router-link>
             <router-link to="/settings">
                 <p>설정</p>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="24px"
-                    viewBox="0 -960 960 960"
-                    width="24px"
-                    fill="#000000"
-                >
-                    <path
-                        d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"
-                    />
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="#000000">
+                    <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
                 </svg>
             </router-link>
         </div>
@@ -96,20 +74,20 @@
     padding: 0 36px;
     padding-bottom: 64px;
 
-    > .title-area {
+    >.title-area {
         padding: 48px 0;
         text-align: left;
         display: flex;
         align-items: center;
         justify-content: space-between;
 
-        > .text-area {
-            > p.title {
+        >.text-area {
+            >p.title {
                 font-size: 28px;
                 font-weight: 900;
             }
 
-            > p.desc {
+            >p.desc {
                 font-size: 14px;
                 font-weight: 500;
                 color: #606060;
@@ -118,25 +96,25 @@
         }
     }
 
-    > .content-area {
+    >.content-area {
         display: flex;
         flex-direction: column;
         gap: 16px;
 
-        > div,
+        >div,
         a {
             background-color: #efefef;
             padding: 12px;
             border-radius: 8px;
         }
 
-        > .profile-area {
-            > .profile-detail-area {
+        >.profile-area {
+            >.profile-detail-area {
                 display: flex;
                 align-items: center;
                 gap: 16px;
 
-                > .user-image-area {
+                >.user-image-area {
                     width: 64px;
                     height: 64px;
                     aspect-ratio: 1 / 1;
@@ -146,23 +124,41 @@
                     background-size: cover;
                 }
 
-                > .info-area {
+                >.info-area {
                     text-align: start;
 
-                    > .name {
+                    >.name {
                         font-weight: 700;
                     }
 
-                    > div {
+                    >div {
                         display: flex;
                         align-items: center;
                         gap: 12px;
                         margin-top: 4px;
-                        > p {
+
+                        >a {
+                            text-decoration: none;
+                            color: black;
+                            padding: 0;
+
+                            >p {
+                                font-weight: 500;
+                                font-size: 12px;
+
+                                >span {
+                                    font-weight: 700;
+                                    font-size: 14px;
+                                    margin-left: 2px;
+                                }
+                            }
+                        }
+
+                        >p {
                             font-weight: 500;
                             font-size: 12px;
 
-                            > span {
+                            >span {
                                 font-weight: 700;
                                 font-size: 14px;
                                 margin-left: 2px;
@@ -172,13 +168,13 @@
                 }
             }
 
-            > .button-area {
+            >.button-area {
                 margin-top: 16px;
                 display: flex;
                 align-items: center;
                 gap: 8px;
 
-                > a {
+                >a {
                     flex: 1;
                     font-weight: 700;
                     text-decoration: none;
@@ -198,12 +194,12 @@
             }
         }
 
-        > .heart-area {
+        >.heart-area {
             display: flex;
             align-items: center;
             gap: 16px;
 
-            > .heart-amount-area {
+            >.heart-amount-area {
                 padding: 12px;
                 background-color: #cdcdcd;
                 border-radius: 8px;
@@ -214,26 +210,26 @@
                 flex-direction: column;
                 justify-content: center;
 
-                > .title {
+                >.title {
                     font-size: 14px;
                     font-weight: 500;
                 }
 
-                > .amount {
+                >.amount {
                     margin-top: 4px;
                     font-size: 16px;
                     font-weight: 700;
                 }
             }
 
-            > .button-area {
+            >.button-area {
                 flex: 1;
                 height: 100%;
                 display: flex;
                 flex-direction: column;
                 gap: 8px;
 
-                > button {
+                >button {
                     height: 38px;
                     border-radius: 8px;
                     width: 100%;
@@ -247,7 +243,7 @@
             }
         }
 
-        > a {
+        >a {
             display: flex;
             align-items: center;
             justify-content: space-between;
