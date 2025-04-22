@@ -16,6 +16,8 @@ import ChatMessageView from '@/views/ChatMessageView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import MyPageView from '@/views/MyPageView.vue'
 import AlertListView from '@/views/AlertListView.vue'
+import FriendListView from '@/views/FriendListView.vue'
+import FriendSearchView from '@/views/FriendSearchView.vue'
 
 const routes = [
   {
@@ -29,6 +31,18 @@ const routes = [
     component: SignupView,
     meta: { requiresAuth: true }
   },
+  {
+    path: '/friend-search',
+    name: 'friend-search',
+    component: FriendSearchView,
+    meta: { requiresAuth: true }
+  },
+  // {
+  //   path: '/friend-search-list',
+  //   name: 'friend-search-list',
+  //   component: FriendSearchListView,
+  //   meta: { requiresAuth: true }
+  // },
   {
     path: '/alert',
     name: 'alert',
@@ -63,6 +77,12 @@ const routes = [
     path: '/mypage',
     name: 'mypage',
     component: MyPageView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/friend-list',
+    name: 'friend-list',
+    component: FriendListView,
     meta: { requiresAuth: true }
   },
   {

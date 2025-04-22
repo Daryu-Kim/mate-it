@@ -167,6 +167,7 @@ const onClickChargeHeart = async (event) => {
 
         alert(`하트 ${buttonValue.value}개 충전이 완료되었습니다!`);
         close();
+        window.location.reload();
     } catch (error) {
         console.error("충전 실패: ", error);
     }

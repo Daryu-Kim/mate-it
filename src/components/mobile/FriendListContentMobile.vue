@@ -2,55 +2,43 @@
     <div class="content">
         <div class="title-area">
             <div class="text-area">
-                <p class="title">채팅방</p>
-                <p class="desc">매칭된 사람들과 채팅을 진행해보세요!</p>
+                <p class="title">친구 리스트</p>
+                <p class="desc">친해진 사람들 리스트를 확인해보세요!</p>
             </div>
         </div>
         <div class="filter-area">
             <div class="tab-menu">
                 <input type="radio" name="menu" id="menu-2" class="tab-button d-none" v-model="selectedTab"
-                    value="person" checked />
-                <label for="menu-2">1:1 채팅</label>
+                    value="accept" checked />
+                <label for="menu-2">내 친구</label>
                 <input type="radio" name="menu" id="menu-3" class="tab-button d-none" v-model="selectedTab"
-                    value="group" />
-                <label for="menu-3">모임 채팅</label>
+                    value="request" />
+                <label for="menu-3">친구 요청</label>
             </div>
 
             <div class="tab-content">
-                <div class="chat-area" v-if="selectedTab === 'person'">
-                    <router-link :to="`/chat?id=${item.chat_id}`" v-for="(item, index) in personDatas" :key="index">
+                <div class="chat-area" v-if="selectedTab === 'accept'">
+                    <router-link :to="`/profile?id=${item.follow_id_1 === currentUserId ? item.follow_id_2 : item.follow_id_1}`" v-for="(item, index) in myFriendDatas" :key="index">
                         <div class="info-area">
                             <div class="user-image-area" :style="`background-image: url('${item.avatar_main}');`"></div>
                             <div class="content-area">
                                 <p class="user-name">{{ item.username }}</p>
-                                <p class="last-content">
-                                    {{ item.lastMessageContent }}
-                                </p>
+                                <button class="gradient-background">
+                                    프로필 보러가기
+                                </button>
                             </div>
-                        </div>
-                        <div class="time-area">
-                            <p class="timestamp">
-                                {{
-                                    item.lastMessageTimestamp ? formatTimestamp(item.lastMessageTimestamp) :
-                                        formatTimestamp(item.created_at)
-                                }}
-                            </p>
-                            <p v-if="item.notReadMessages > 0" class="not-read">
-                                {{ item.notReadMessages }}
-                            </p>
                         </div>
                     </router-link>
                 </div>
-                <div class="chat-area" v-if="selectedTab === 'group'">
-                    <router-link :to="`/group-chat?id=${item.event_id}`" v-for="(item, index) in groupDatas"
-                        :key="index">
+                <div class="chat-area" v-if="selectedTab === 'request'">
+                    <router-link :to="`/profile?id=${item.follow_id_1 === currentUserId ? item.follow_id_2 : item.follow_id_1}`" v-for="(item, index) in requestFriendDatas" :key="index">
                         <div class="info-area">
                             <div class="user-image-area" :style="`background-image: url('${item.avatar_main}');`"></div>
                             <div class="content-area">
-                                <p class="user-name">{{ item.title }}</p>
-                                <p class="last-content">
-                                    {{ item.lastMessageContent }}
-                                </p>
+                                <p class="user-name">{{ item.username }}</p>
+                                <button class="gradient-background">
+                                    프로필 보러가기
+                                </button>
                             </div>
                         </div>
                         <div class="time-area">
@@ -59,9 +47,6 @@
                                     item.lastMessageTimestamp ? formatTimestamp(item.lastMessageTimestamp) :
                                         formatTimestamp(item.created_at)
                                 }}
-                            </p>
-                            <p v-if="item.notReadMessages > 0" class="not-read">
-                                {{ item.notReadMessages }}
                             </p>
                         </div>
                     </router-link>
@@ -169,11 +154,10 @@
                         align-items: center;
                         gap: 10px;
                         flex: 1;
-                        height: 48px;
 
                         >.user-image-area {
-                            width: 42px;
-                            height: 42px;
+                            width: 56px;
+                            height: 56px;
                             aspect-ratio: 1 / 1;
                             background-position: center center;
                             background-size: cover;
@@ -183,6 +167,7 @@
 
                         >.content-area {
                             text-align: start;
+                            flex: 1;
 
                             >.user-name {
                                 font-weight: 700;
@@ -194,15 +179,13 @@
                                 width: 128px;
                             }
 
-                            >.last-content {
-                                margin-top: 2px;
-                                font-weight: 500;
-                                color: grey;
+                            > button {
+                                border-radius: 8px;
+                                width: 100%;
                                 font-size: 12px;
-                                overflow: hidden;
-                                white-space: nowrap;
-                                text-overflow: ellipsis;
-                                width: 128px;
+                                padding: 8px 12px;
+                                font-weight: 700;
+                                margin-top: 6px;
                             }
                         }
                     }
@@ -217,17 +200,6 @@
                             color: grey;
                             font-weight: 500;
                         }
-
-                        >.not-read {
-                            margin-top: 2px;
-                            border-radius: 100rem;
-                            font-size: 10px;
-                            font-weight: 700;
-                            color: white;
-                            background-color: #fd3725;
-                            width: fit-content;
-                            padding: 2px 6px;
-                        }
                     }
                 }
             }
@@ -240,11 +212,12 @@
 import { supabase } from '@/lib/supabase';
 import { onMounted, ref } from 'vue';
 
-const personDatas = ref([]);
-const groupDatas = ref([]);
-const selectedTab = ref('person');
+const myFriendDatas = ref([]);
+const requestFriendDatas = ref([]);
+const selectedTab = ref('accept');
+const currentUserId = ref('');
 
-const loadGroupChats = async () => {
+const loadMyFriendList = async () => {
     try {
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         if (sessionError || !session) {
@@ -253,72 +226,15 @@ const loadGroupChats = async () => {
         }
         const currentUid = session.user.id;
 
-        const { data: groupData, error: groupError } = await supabase
-            .from('events')
+        const { data: friendData, error: friendError } = await supabase
+            .from('user_follow')
             .select('*')
-            .contains('participants', [currentUid])
-        if (groupError) throw groupError;
+            .or(`follow_id_1.eq.${currentUid},follow_id_2.eq.${currentUid}`)
+            .eq('status', 'accepted');
+        if (friendError) throw friendError;
 
-        for (const chat of groupData) {
-            const { data: userData, error: userError } = await supabase
-                .from('users')
-                .select('avatar_main')
-                .eq('id', chat.user_id)
-                .single();
-            if (userError) throw userError;
-
-            chat.avatar_main = userData.avatar_main[0];
-
-            const { data: messagesDatas, error: messagesError } = await supabase
-                .from('event_chat_messages')
-                .select('*')
-                .eq('event_id', chat.event_id)
-                .order('timestamp', { ascending: false })
-            if (messagesError) throw messagesError;
-
-            chat.lastMessageContent = messagesDatas.length > 0 ? messagesDatas[0].content : "새로운 대화를 시작해보세요!";
-            chat.lastMessageTimestamp = messagesDatas.length > 0 ? messagesDatas[0].timestamp : "";
-            chat.notReadMessages = messagesDatas.filter(message =>
-                message.user_id !== currentUid && !message.isReaded
-            ).length;
-            chat.filter = "group";
-        }
-
-        groupData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-        groupDatas.value = groupData;
-    } catch (error) {
-        console.error("그룹 채팅 데이터 가져오기 실패: ", error);
-    }
-}
-
-const loadPersonChats = async () => {
-    try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        if (sessionError || !session) {
-            console.error('세션을 가져올 수 없습니다:', sessionError?.message);
-            return null;
-        }
-        const currentUid = session.user.id;
-
-        const { data: chatData1, error: chatError1 } = await supabase
-            .from('user_chat')
-            .select('*')
-            .eq('user_id_1', currentUid)
-
-        if (chatError1) throw chatError1;
-
-        const { data: chatData2, error: chatError2 } = await supabase
-            .from('user_chat')
-            .select('*')
-            .eq('user_id_2', currentUid)
-
-        if (chatError2) throw chatError2;
-
-        const combinedChatData = [...chatData1, ...chatData2];
-
-        for (const chat of combinedChatData) {
-            const otherUserId = chat.user_id_1 === currentUid ? chat.user_id_2 : chat.user_id_1;
+        for (const friend of friendData) {
+            const otherUserId = friend.follow_id_1 === currentUid ? friend.follow_id_2 : friend.follow_id_1;
 
             const { data: userData, error: userError } = await supabase
                 .from('users')
@@ -327,31 +243,51 @@ const loadPersonChats = async () => {
                 .single();
             if (userError) throw userError;
 
-            chat.username = userData.username;
-            chat.avatar_main = userData.avatar_main[0];
-
-            const { data: messagesDatas, error: messagesError } = await supabase
-                .from('user_chat_messages')
-                .select('*')
-                .eq('chat_id', chat.chat_id)
-                .order('timestamp', { ascending: false })
-            if (messagesError) throw messagesError;
-
-            chat.lastMessageContent = messagesDatas.length > 0 ? messagesDatas[0].content : "새로운 대화를 시작해보세요!";
-            chat.lastMessageTimestamp = messagesDatas.length > 0 ? messagesDatas[0].timestamp : "";
-            chat.notReadMessages = messagesDatas.filter(message =>
-                message.sender_id !== currentUid && !message.isReaded
-            ).length;
-            chat.filter = "person";
+            friend.username = userData.username;
+            friend.avatar_main = userData.avatar_main[0];
         }
 
-        combinedChatData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-        console.log(combinedChatData)
-
-        personDatas.value = combinedChatData;
+        currentUserId.value = currentUid;
+        myFriendDatas.value = friendData;
     } catch (error) {
-        console.error('개인 대화 데이터 가져오기 실패: ', error);
+        console.error('내 친구 데이터 가져오기 실패: ', error);
+    }
+}
+
+const loadRequestFriendList = async () => {
+    try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        if (sessionError || !session) {
+            console.error('세션을 가져올 수 없습니다:', sessionError?.message);
+            return null;
+        }
+        const currentUid = session.user.id;
+
+        const { data: friendData, error: friendError } = await supabase
+            .from('user_follow')
+            .select('*')
+            .or(`follow_id_1.eq.${currentUid},follow_id_2.eq.${currentUid}`)
+            .eq('creater_id', currentUid)
+            .eq('status', 'request');
+        if (friendError) throw friendError;
+
+        for (const friend of friendData) {
+            const otherUserId = friend.follow_id_1 === currentUid ? friend.follow_id_2 : friend.follow_id_1;
+
+            const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('username, avatar_main')
+                .eq('id', otherUserId)
+                .single();
+            if (userError) throw userError;
+
+            friend.username = userData.username;
+            friend.avatar_main = userData.avatar_main[0];
+        }
+
+        requestFriendDatas.value = friendData;
+    } catch (error) {
+        console.error('내 친구 데이터 가져오기 실패: ', error);
     }
 }
 
@@ -385,7 +321,7 @@ const formatTimestamp = (timestamp) => {
 }
 
 onMounted(async () => {
-    await loadPersonChats();
-    await loadGroupChats();
+    await loadMyFriendList();
+    await loadRequestFriendList();
 });
 </script>
