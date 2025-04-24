@@ -19,10 +19,9 @@
                 마음이 통하는 친구는 생각보다 가까이에 있어요. 아래 버튼을 눌러 당신만의 특별한 인연을 만나보세요! 💫
             </p>
         </div>
-        <button class="gradient-background">
-            <p class="title">친구 찾으러 가기</p>
-            <p class="desc">하트 5개 차감</p>
-        </button>
+        <router-link to="/friend-search-filter" class="gradient-background">
+            <p>친구 찾으러 가기</p>
+        </router-link>
     </div>
 </template>
 
@@ -78,26 +77,20 @@
         }
     }
 
-    > button {
+    > a {
         margin-top: auto;
         border-radius: 8px;
-        height: 56px;
+        height: 48px;
+        text-decoration: none;
+        color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        > .title {
+        > p {
             font-weight: 700;
-            font-size: 16px;
-        }
-
-        > .desc {
-            font-weight: 500;
-            font-size: 12px;
-            margin-top: 2px;
+            font-size: 14px;
         }
     }
 }
 </style>
-
-<script setup lang="js">
-import { ref } from "vue";
-import { supabase } from "@/lib/supabase";
-</script>

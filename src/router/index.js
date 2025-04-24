@@ -18,6 +18,7 @@ import MyPageView from '@/views/MyPageView.vue'
 import AlertListView from '@/views/AlertListView.vue'
 import FriendListView from '@/views/FriendListView.vue'
 import FriendSearchView from '@/views/FriendSearchView.vue'
+import FriendSearchFilterView from '@/views/FriendSearchFilterView.vue'
 
 const routes = [
   {
@@ -35,6 +36,12 @@ const routes = [
     path: '/friend-search',
     name: 'friend-search',
     component: FriendSearchView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/friend-search-filter',
+    name: 'friend-search-filter',
+    component: FriendSearchFilterView,
     meta: { requiresAuth: true }
   },
   // {
