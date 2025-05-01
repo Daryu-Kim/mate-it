@@ -3,21 +3,59 @@
         <div class="title-area">
             <div class="text-area">
                 <p class="title">친구 검색 조건</p>
-                <p class="desc">
-                    만나고 싶은 친구는 어떤 유형의 친구인가요?
-                </p>
+                <p class="desc">만나고 싶은 친구는 어떤 유형의 친구인가요?</p>
             </div>
         </div>
         <div class="filter-area" v-for="(item, index) in options" :key="index">
-            <p class="title">{{ item.title }}</p>
-            <div>
-                <div v-for="(optionItem, optionIndex) in item.options" :key="optionIndex">
-                    <input type="checkbox" class="d-none" :id="`${item.optionName}-${optionIndex}`" :value="optionItem.value" v-model="item.model" />
-                    <label :for="`${item.optionName}-${optionIndex}`">
-                        {{ optionItem.label }}
-                    </label>
+            <button
+                class="title"
+                @click="item.expanded.value = !item.expanded.value"
+            >
+                <p>{{ item.title }}</p>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#000000"
+                    v-if="item.expanded.value === false"
+                >
+                    <path
+                        d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"
+                    />
+                </svg>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#000000"
+                    v-else
+                >
+                    <path
+                        d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"
+                    />
+                </svg>
+            </button>
+            <Transition v-if="item.expanded.value">
+                <div>
+                    <div
+                        v-for="(optionItem, optionIndex) in item.options"
+                        :key="optionIndex"
+                    >
+                        <input
+                            type="checkbox"
+                            class="d-none"
+                            :id="`${item.optionName}-${optionIndex}`"
+                            :value="optionItem.value"
+                            v-model="item.model"
+                        />
+                        <label :for="`${item.optionName}-${optionIndex}`">
+                            {{ optionItem.label }}
+                        </label>
+                    </div>
                 </div>
-            </div>
+            </Transition>
         </div>
         <button @click="onClickSearchStart" class="gradient-background">
             <p class="title">나한테 맞는 친구 찾기</p>
@@ -60,10 +98,14 @@
             margin-top: 36px;
         }
 
-        > p {
+        > button {
             text-align: start;
             font-weight: 700;
             font-size: 16px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         > div {
@@ -85,18 +127,21 @@
                     background-color: #fff;
                 }
 
-                > input:checked+label {
-                    background: linear-gradient(45deg, #2af598 0%, #009efd 100%);
+                > input:checked + label {
+                    background: linear-gradient(
+                        45deg,
+                        #2af598 0%,
+                        #009efd 100%
+                    );
                     border-color: transparent;
                     font-weight: 700;
                 }
             }
         }
-
     }
 
     > button {
-        margin-top: 24px;
+        margin-top: 48px;
         border-radius: 8px;
         height: 48px;
         display: flex;
@@ -124,19 +169,46 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+const isExpandedGender = ref(true);
+const isExpandedBodyType = ref(false);
+const isExpandedMbti = ref(false);
+const isExpandedReligion = ref(false);
+const isExpandedDrinking = ref(false);
+const isExpandedSmoking = ref(false);
+const isExpandedEducation = ref(false);
+const isExpandedJob = ref(false);
+const isExpandedPersonality = ref(false);
+const isExpandedInterests = ref(false);
+const isExpandedIdealType = ref(false);
+const isExpandedLookingFor = ref(false);
+const isExpandedAddress = ref(false);
+const isExpandedBirthDate = ref(false);
+const isExpandedHeight = ref(false);
+
 const checkedGender = ref([]);
+const checkedBodyType = ref([]);
 const checkedMbti = ref([]);
 const checkedReligion = ref([]);
 const checkedDrinking = ref([]);
 const checkedSmoking = ref([]);
 const checkedEducation = ref([]);
 const checkedJob = ref([]);
+const checkedPersonality = ref([]);
+const checkedInterests = ref([]);
+const checkedIdealType = ref([]);
+const checkedLookingFor = ref([]);
+const checkedAddress = ref([]);
+const checkedMinBirthDate = ref(0);
+const checkedMaxBirthDate = ref(0);
+const checkedMinHeight = ref(0);
+const checkedMaxHeight = ref(0);
 
 const options = [
     {
-        title: '성별',
+        title: '상대방의 성별',
         optionName: 'gender',
         model: checkedGender,
+        expanded: isExpandedGender,
         options: [
             {
                 label: '남성', // label에 "cm" 추가
@@ -149,9 +221,42 @@ const options = [
         ]
     },
     {
-        title: 'MBTI',
+        title: '상대방의 체형',
+        optionName: 'body_type',
+        model: checkedBodyType,
+        expanded: isExpandedBodyType,
+        options: [
+            {
+                label: '마른', // label에 "cm" 추가
+                value: 'slim', // value를 string으로 변환
+            },
+            {
+                label: '슬림탄탄', // label에 "cm" 추가
+                value: 'fit', // value를 string으로 변환
+            },
+            {
+                label: '평균적인 체형', // label에 "cm" 추가
+                value: 'average', // value를 string으로 변환
+            },
+            {
+                label: '살짝 통통한', // label에 "cm" 추가
+                value: 'soft', // value를 string으로 변환
+            },
+            {
+                label: '볼륨감 있는', // label에 "cm" 추가
+                value: 'curvy', // value를 string으로 변환
+            },
+            {
+                label: '건강한 체형', // label에 "cm" 추가
+                value: 'solid', // value를 string으로 변환
+            },
+        ]
+    },
+    {
+        title: '상대방의 MBTI',
         optionName: 'mbti',
         model: checkedMbti,
+        expanded: isExpandedMbti,
         options: [
             {
                 label: 'ISTJ',
@@ -220,9 +325,10 @@ const options = [
         ]
     },
     {
-        title: '종교',
+        title: '상대방의 종교',
         optionName: 'religion',
         model: checkedReligion,
+        expanded: isExpandedReligion,
         options: [
             {
                 "label": "무교",
@@ -259,9 +365,10 @@ const options = [
         ]
     },
     {
-        title: '음주',
+        title: '상대방의 음주 여부',
         optionName: 'drinking',
         model: checkedDrinking,
+        expanded: isExpandedDrinking,
         options: [
             {
                 "label": "전혀 안 마심",
@@ -282,9 +389,10 @@ const options = [
         ]
     },
     {
-        title: '흡연',
+        title: '상대방의 흡연 여부',
         optionName: 'smoking',
         model: checkedSmoking,
+        expanded: isExpandedSmoking,
         options: [
             {
                 "label": "비흡연자",
@@ -305,9 +413,10 @@ const options = [
         ]
     },
     {
-        title: '학력',
+        title: '상대방의 학력',
         optionName: 'education',
         model: checkedEducation,
+        expanded: isExpandedEducation,
         options: [
             {
                 label: '고등학교 졸업', // label에 "cm" 추가
@@ -348,9 +457,10 @@ const options = [
         ]
     },
     {
-        title: '직업',
+        title: '상대방의 직업',
         optionName: 'job',
         model: checkedJob,
+        expanded: isExpandedJob,
         options: [
             {
                 "label": "학생",
@@ -415,6 +525,186 @@ const options = [
             {
                 "label": "기타",
                 "value": "other_job"
+            }
+        ]
+    },
+    {
+        title: '상대방의 성격',
+        optionName: 'personality',
+        model: checkedPersonality,
+        expanded: isExpandedPersonality,
+        options: [
+            { "label": "활발한", "value": "active" },
+            { "label": "차분한", "value": "calm" },
+            { "label": "낙천적인", "value": "optimistic" },
+            { "label": "내성적인", "value": "introverted" },
+            { "label": "외향적인", "value": "extroverted" },
+            { "label": "상냥한", "value": "kind" },
+            { "label": "고집 센", "value": "stubborn" },
+            { "label": "개방적인", "value": "open_minded" },
+            { "label": "조용한", "value": "quiet" },
+            { "label": "유머러스한", "value": "humorous" },
+            { "label": "호기심 많은", "value": "curious" },
+            { "label": "성실한", "value": "diligent" },
+            { "label": "이해심 있는", "value": "understanding" },
+            { "label": "감정적인", "value": "emotional" },
+            { "label": "이성적인", "value": "rational" },
+            { "label": "자유로운", "value": "free_spirited" },
+            { "label": "책임감 있는", "value": "responsible" },
+            { "label": "배려 깊은", "value": "considerate" },
+            { "label": "조직적인", "value": "organized" },
+            { "label": "사교적인", "value": "sociable" },
+            { "label": "지적인", "value": "intellectual" },
+            { "label": "자기주장이 강한", "value": "assertive" },
+            { "label": "편안한", "value": "easygoing" },
+            { "label": "열정적인", "value": "passionate" },
+            { "label": "도전적인", "value": "challenging" },
+            { "label": "충동적인", "value": "impulsive" },
+            { "label": "진지한", "value": "serious" },
+            { "label": "친절한", "value": "gentle" },
+            { "label": "사려 깊은", "value": "thoughtful" },
+            { "label": "창의적인", "value": "creative" },
+            { "label": "자기 반성적인", "value": "self_reflective" },
+            { "label": "겸손한", "value": "humble" },
+            { "label": "충실한", "value": "loyal" },
+            { "label": "이해가 빠른", "value": "quick_learner" },
+            { "label": "불안한", "value": "anxious" },
+            { "label": "자기 중심적인", "value": "self_centered" },
+            { "label": "활기찬", "value": "energetic" },
+            { "label": "주도적인", "value": "leadership" },
+            { "label": "정직한", "value": "honest" },
+            { "label": "호탕한", "value": "outgoing" },
+            { "label": "창의적", "value": "innovative" },
+            { "label": "신뢰할 수 있는", "value": "trustworthy" },
+            { "label": "진정성 있는", "value": "genuine" },
+            { "label": "책임감 있는", "value": "accountable" }
+        ]
+    },
+    {
+        title: '상대방의 취미',
+        optionName: 'interests',
+        model: checkedInterests,
+        expanded: isExpandedInterests,
+        options: [
+            { "label": "영화 감상", "value": "watching_movies" },
+            { "label": "독서", "value": "reading" },
+            { "label": "여행", "value": "traveling" },
+            { "label": "운동", "value": "exercise" },
+            { "label": "요리", "value": "cooking" },
+            { "label": "음악 감상", "value": "listening_music" },
+            { "label": "사진 촬영", "value": "photography" },
+            { "label": "게임", "value": "gaming" },
+            { "label": "미술 / 디자인", "value": "art_design" },
+            { "label": "봉사 활동", "value": "volunteering" },
+            { "label": "패션", "value": "fashion" },
+            { "label": "드라마 감상", "value": "watching_dramas" },
+            { "label": "도시 탐방", "value": "city_exploration" },
+            { "label": "악기 연주", "value": "playing_instruments" },
+            { "label": "테크놀로지 / 프로그래밍", "value": "technology_programming" },
+            { "label": "수영", "value": "swimming" },
+            { "label": "등산", "value": "hiking" },
+            { "label": "볼링", "value": "bowling" },
+            { "label": "요가", "value": "yoga" },
+            { "label": "농구", "value": "basketball" },
+            { "label": "축구", "value": "soccer" },
+            { "label": "클라이밍", "value": "climbing" },
+            { "label": "낚시", "value": "fishing" },
+            { "label": "다트", "value": "darts" },
+            { "label": "패러글라이딩", "value": "paragliding" },
+            { "label": "캠핑", "value": "camping" },
+            { "label": "사교춤", "value": "ballroom_dancing" },
+            { "label": "디지털 아트", "value": "digital_art" },
+            { "label": "공예", "value": "crafting" },
+            { "label": "사이클링", "value": "cycling" },
+            { "label": "음악 제작", "value": "music_production" },
+            { "label": "보드게임", "value": "board_games" },
+            { "label": "바다 낚시", "value": "sea_fishing" },
+            { "label": "축제 참여", "value": "attending_festivals" },
+            { "label": "정원 가꾸기", "value": "gardening" },
+            { "label": "패치워크", "value": "patchwork" },
+            { "label": "요리 배우기", "value": "learning_cooking" },
+            { "label": "새로운 음식 시도", "value": "trying_new_foods" },
+            { "label": "복싱", "value": "boxing" },
+            { "label": "펜싱", "value": "fencing" },
+            { "label": "사냥", "value": "hunting" },
+            { "label": "산책", "value": "walking" },
+            { "label": "클래식 음악 감상", "value": "listening_classical_music" },
+            { "label": "애완동물 돌보기", "value": "pet_care" }
+        ]
+    },
+    {
+        title: '상대방의 이상형',
+        optionName: 'idealtype',
+        model: checkedIdealType,
+        expanded: isExpandedIdealType,
+        options: [
+            { "label": "활발한", "value": "active" },
+            { "label": "차분한", "value": "calm" },
+            { "label": "낙천적인", "value": "optimistic" },
+            { "label": "내성적인", "value": "introverted" },
+            { "label": "외향적인", "value": "extroverted" },
+            { "label": "상냥한", "value": "kind" },
+            { "label": "고집 센", "value": "stubborn" },
+            { "label": "개방적인", "value": "open_minded" },
+            { "label": "조용한", "value": "quiet" },
+            { "label": "유머러스한", "value": "humorous" },
+            { "label": "호기심 많은", "value": "curious" },
+            { "label": "성실한", "value": "diligent" },
+            { "label": "이해심 있는", "value": "understanding" },
+            { "label": "감정적인", "value": "emotional" },
+            { "label": "이성적인", "value": "rational" },
+            { "label": "자유로운", "value": "free_spirited" },
+            { "label": "책임감 있는", "value": "responsible" },
+            { "label": "배려 깊은", "value": "considerate" },
+            { "label": "조직적인", "value": "organized" },
+            { "label": "사교적인", "value": "sociable" },
+            { "label": "지적인", "value": "intellectual" },
+            { "label": "자기주장이 강한", "value": "assertive" },
+            { "label": "편안한", "value": "easygoing" },
+            { "label": "열정적인", "value": "passionate" },
+            { "label": "도전적인", "value": "challenging" },
+            { "label": "충동적인", "value": "impulsive" },
+            { "label": "진지한", "value": "serious" },
+            { "label": "친절한", "value": "gentle" },
+            { "label": "사려 깊은", "value": "thoughtful" },
+            { "label": "창의적인", "value": "creative" },
+            { "label": "자기 반성적인", "value": "self_reflective" },
+            { "label": "겸손한", "value": "humble" },
+            { "label": "충실한", "value": "loyal" },
+            { "label": "이해가 빠른", "value": "quick_learner" },
+            { "label": "불안한", "value": "anxious" },
+            { "label": "자기 중심적인", "value": "self_centered" },
+            { "label": "활기찬", "value": "energetic" },
+            { "label": "주도적인", "value": "leadership" },
+            { "label": "정직한", "value": "honest" },
+            { "label": "호탕한", "value": "outgoing" },
+            { "label": "창의적", "value": "innovative" },
+            { "label": "신뢰할 수 있는", "value": "trustworthy" },
+            { "label": "진정성 있는", "value": "genuine" },
+            { "label": "책임감 있는", "value": "accountable" }
+        ]
+    },
+    {
+        title: '찾고 있는 인연',
+        optionName: 'lookingfor',
+        model: checkedLookingFor,
+        expanded: isExpandedLookingFor,
+        options: [
+            {
+                "label": "잘 맞는 친구 찾는 중!",
+                "value": "finding_friend"
+            },
+            {
+                "label": "친구도, 연애도 OK.",
+                "value": "friend_or_dating"
+            },
+            {
+                "label": "진지한 연애 원해요.",
+                "value": "serious_relationship"
+            },
+            {
+                "label": "아직 고민 중!",
+                "value": "not_sure_yet"
             }
         ]
     },
